@@ -1,9 +1,4 @@
 # API Middleman
-#
-#
-#
-#
-#
 # --- Credentials Section ---
 ## Register
 Request :
@@ -418,16 +413,15 @@ Request :
 - Method : GET
 - Endpoint : `/api/shipping/fee`
 - Header :
-    - Authorization : "Bearer " + token
     - Content-Type: application/json
     - Accept: application/json
 - Body :
     
 ```json 
 {
-    "origin" : "string",
-    "destination" : "string",
-    "weight" : "number",
+    "origin" : number,
+    "destination" : number,
+    "weight" : number,
     "courier" : ["jne", "tiki", "pos"] *pick 1
 }
 ```
@@ -439,7 +433,36 @@ Response :
     "code" : "number",
     "status" : "string",
     "data" : {
-         "message" : "string"
+        "message" : [
+            {
+                "code": "jne",
+                "name": "Jalur Nugraha Ekakurir (JNE)",
+                "costs": [
+                    {
+                        "service": "OKE",
+                        "description": "Ongkos Kirim Ekonomis",
+                        "cost": [
+                            {
+                                "value": 35000,
+                                "etd": "3-4",
+                                "note": ""
+                            }
+                        ]
+                    },
+                    {
+                        "service": "REG",
+                        "description": "Layanan Reguler",
+                        "cost": [
+                            {
+                                "value": 38000,
+                                "etd": "2-3",
+                                "note": ""
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
      }
 }
 ```
