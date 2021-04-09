@@ -389,6 +389,67 @@ Response :
 }
 ```
 
+## [GET] Get Circle Invitation
+Request :
+- Method : GET
+- Endpoint : `/api/circle/invitation`
+- Header :
+    - Authorization : "Bearer " + token
+    - Content-Type: application/json
+    - Accept: application/json
+
+Response :
+
+```json 
+{
+    "code" : "number",
+    "status" : "string",
+    "data" : {
+        "message" : "string",
+        "invitation_list" : [
+            {
+                "circle_id" : "number",
+                "circle_name" : "string",
+                "circle_description" : "text",
+                "circle_admin" : "string",
+                "total_member" : "number",
+                "founded_at" : "date"
+            },
+            {
+                "circle_id" : "number",
+                "circle_name" : "string",
+                "circle_description" : "text",
+                "circle_admin" : "string",
+                "total_member" : "number",
+                "founded_at" : "date"
+            }
+        ]
+    }
+}
+```
+
+## [POST] Approve Circle Invititation
+Request :
+- Method : PUT
+- Endpoint : `/api/circle/invitation/approve?circle_id={number}&value={boolean}`
+- Header :
+    - Authorization : "Bearer " + token
+    - Content-Type: application/json
+    - Accept: application/json
+
+Response :
+
+```json 
+{
+    "code" : "number",
+    "status" : "string",
+    "data" : {
+        "message" : "string"
+    }
+}
+```
+
+
 ## [DELETE] Remove Member from Circle as Admin
 Request :
 - Method : DELETE
