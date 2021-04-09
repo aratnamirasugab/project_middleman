@@ -526,7 +526,6 @@ Request :
 {
     "buyer_id" : "number",
     "seller_id" : "number",
-    "approved_by_admin" : "boolean",
     "shipping_address" : "text",
     "item_list" : [
         {
@@ -549,10 +548,10 @@ Request :
 }
 ```
 
-## [GET] Get orders waiting approval as Admin
+## [GET] Get orders waiting for approval as Admin
 Request :
 - Method : GET
-- Endpoint : `/api/admin/orders`
+- Endpoint : `/api/order/admin`
 - Header :
     - Authorization : "Bearer " + token
     - Content-Type: application/json
@@ -606,14 +605,13 @@ Response :
                 ]
             }
         ]
-     }
+    }
 }
 ```
-
-## [PUT] Approve order from list
+## [PUT] Approve Order from list as Admin
 Request :
 - Method : PUT
-- Endpoint : `/api/admin/orders/approve?order_id={number}`
+- Endpoint : `/api/order/admin/approve?order_id={number}`
 - Header :
     - Content-Type: application/json
     - Accept: application/json
@@ -621,6 +619,32 @@ Request :
 ```json 
 {
     "approved_by_admin" : "boolean"
+}
+```
+
+Response :
+
+```json 
+{
+    "code" : "number",
+    "status" : "string",
+    "data" : {
+        "message" : "string"
+    }
+}
+```
+
+## [PUT] Approve Order from list as Seller
+Request :
+- Method : PUT
+- Endpoint : `/api/order/seller/approve?order_id={number}`
+- Header :
+    - Content-Type: application/json
+    - Accept: application/json
+- Body :
+```json 
+{
+    "approved_by_seller" : "boolean"
 }
 ```
 
