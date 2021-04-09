@@ -24,8 +24,8 @@ Response :
     "code" : "number",
     "status" : "string",
     "data" : {
-         "message" : "string"
-     }
+        "message" : "string"
+    }
 }
 ```
 
@@ -52,8 +52,8 @@ Response :
     "code" : "number",
     "status" : "string",
     "data" : {
-         "message" : "string"
-     }
+        "message" : "string"
+    }
 }
 ```
 
@@ -73,8 +73,8 @@ Response :
     "code" : "number",
     "status" : "string",
     "data" : {
-         "message" : "string"
-     }
+        "message" : "string"
+    }
 }
 ```
 
@@ -102,8 +102,8 @@ Response :
     "code" : "number",
     "status" : "string",
     "data" : {
-         "message" : "string"
-     }
+        "message" : "string"
+    }
 }
 ```
 
@@ -124,17 +124,17 @@ Response :
     "code" : "number",
     "status" : "string",
     "data" : {
-         "name" : "string",
-         "avatar" : "string",
-         "joined_on" : "string",
-         "email" : "string",
-         "admin" : "boolean",
-         "circle_info" : {
-            "cicle_name": "string",
-            "total_member" : "number",
-            "admin" : "boolean"
-         }
-     }
+        "name" : "string",
+        "avatar" : "string",
+        "joined_on" : "string",
+        "email" : "string",
+        "admin" : "boolean",
+        "circle_info" : {
+           "cicle_name": "string",
+           "total_member" : "number",
+           "admin" : "boolean"
+        }
+    }
 }
 ```
 
@@ -160,8 +160,8 @@ Response :
     "code" : "number",
     "status" : "string",
     "data" : {
-         "message" : "string"
-     }
+        "message" : "string"
+    }
 }
 ```
 
@@ -188,8 +188,8 @@ Response :
     "code" : "number",
     "status" : "string",
     "data" : {
-         "message" : "string"
-     }
+        "message" : "string"
+    }
 }
 ```
 
@@ -209,7 +209,7 @@ Request :
 {
     "name" : "string",
     "description" : "string",
-    "image" "string",
+    "image" : "string",
     "quantity" : "number",
     "price" : "number"
 }
@@ -222,8 +222,8 @@ Response :
     "code" : "number",
     "status" : "string",
     "data" : {
-         "message" : "string"
-     }
+        "message" : "string"
+    }
 }
 ```
 
@@ -254,8 +254,8 @@ Response :
     "code" : "number",
     "status" : "string",
     "data" : {
-         "message" : "string"
-     }
+        "message" : "string"
+    }
 }
 ```
 
@@ -275,8 +275,8 @@ Response :
     "code" : "number",
     "status" : "string",
     "data" : {
-         "message" : "string"
-     }
+        "message" : "string"
+    }
 }
 ```
 
@@ -307,8 +307,8 @@ Response :
     "code" : "number",
     "status" : "string",
     "data" : {
-         "message" : "string"
-     }
+        "message" : "string"
+    }
 }
 ```
 
@@ -335,8 +335,8 @@ Response :
     "code" : "number",
     "status" : "string",
     "data" : {
-         "message" : "string"
-     }
+        "message" : "string"
+    }
 }
 ```
 
@@ -363,8 +363,8 @@ Response :
     "code" : "number",
     "status" : "string",
     "data" : {
-         "message" : "string"
-     }
+        "message" : "string"
+    }
 }
 ```
 
@@ -384,8 +384,8 @@ Response :
     "code" : "number",
     "status" : "string",
     "data" : {
-         "message" : "string"
-     }
+        "message" : "string"
+    }
 }
 ```
 
@@ -405,8 +405,8 @@ Response :
     "code" : "number",
     "status" : "string",
     "data" : {
-         "message" : "string"
-     }
+        "message" : "string"
+    }
 }
 ```
 
@@ -426,8 +426,8 @@ Response :
     "code" : "number",
     "status" : "string",
     "data" : {
-         "message" : "string"
-     }
+        "message" : "string"
+    }
 }
 ```
 
@@ -506,8 +506,8 @@ Response :
     "code" : "number",
     "status" : "string",
     "data" : {
-         "message" : "string"
-     }
+        "message" : "string"
+    }
 }
 ```
 
@@ -526,11 +526,24 @@ Request :
 {
     "buyer_id" : "number",
     "seller_id" : "number",
-    "approved_by_id" : "number",
+    "approved_by_admin" : "boolean",
     "shipping_address" : "text",
-    "item_id" : "number",
-    "notes" : "text",
-    "quantity" : "number",
+    "item_list" : [
+        {
+            "item_id" : "number",
+            "notes" : "text",
+            "price" : "number",
+            "quantity" : "number",
+            "weight" : "number"
+        },
+        {
+            "item_id" : "number",
+            "notes" : "text",
+            "price" : "number",
+            "quantity" : "number",
+            "weight" : "number"
+        }
+    ],
     "shipping_price" : "number",
     "total_price" : "number"
 }
@@ -552,7 +565,8 @@ Response :
     "code" : "number",
     "status" : "string",
     "data" : {
-         "message" : "string",
+        "message" : "string",
+        
  
      }
 }
