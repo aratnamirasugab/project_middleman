@@ -128,7 +128,7 @@ Response :
         "avatar" : "string",
         "joined_on" : "string",
         "email" : "string",
-        "admin" : "boolean",
+        "is_admin" : "boolean",
         "circle_info" : {
            "cicle_name": "string",
            "total_member" : "number",
@@ -437,6 +437,7 @@ Request :
 - Method : GET
 - Endpoint : `/api/shipping/cost`
 - Header :
+    - Authorization : "Bearer " + token
     - Content-Type: application/json
     - Accept: application/json
 - Body :
@@ -548,10 +549,10 @@ Request :
 }
 ```
 
-## [GET] Get orders waiting for approval as Admin
+## [GET] Get Orders waiting for approval as Admin
 Request :
 - Method : GET
-- Endpoint : `/api/order/admin`
+- Endpoint : `/api/order/admin/orders`
 - Header :
     - Authorization : "Bearer " + token
     - Content-Type: application/json
@@ -608,19 +609,74 @@ Response :
     }
 }
 ```
+
+## [GET] Get Orders waiting for approval as Seller
+Request :
+- Method : GET
+- Endpoint : `/api/order/seller/orders`
+- Header :
+    - Authorization : "Bearer " + token
+    - Content-Type: application/json
+    - Accept: application/json
+
+Response :
+
+```json 
+{
+    "code" : "number",
+    "status" : "string",
+    "data" : {
+        "message" : "string",
+        "orders" : [
+            {
+                "id" : "number",
+                "buyer_id" : "number",
+                "item_list" : [
+                    {
+                        "item_id" : "number",
+                        "item_name" : "string",
+                        "price" : "number",
+                        "quantity" : "number"
+                    },
+                    {
+                        "item_id" : "number",
+                        "item_name" : "string",
+                        "price" : "number",
+                        "quantity" : "number"
+                    }
+                ]
+            },
+            {
+                "id" : "number",
+                "buyer_id" : "number",
+                "item_list" : [
+                    {
+                        "item_id" : "number",
+                        "item_name" : "string",
+                        "price" : "number",
+                        "quantity" : "number"
+                    },
+                    {
+                        "item_id" : "number",
+                        "item_name" : "string",
+                        "price" : "number",
+                        "quantity" : "number"
+                    }
+                ]
+            }
+        ]
+    }
+}
+```
+
 ## [PUT] Approve Order from list as Admin
 Request :
 - Method : PUT
-- Endpoint : `/api/order/admin/approve?order_id={number}`
+- Endpoint : `/api/order/admin/approve?order_id={number}&value={boolean}`
 - Header :
+    - Authorization : "Bearer " + token
     - Content-Type: application/json
     - Accept: application/json
-- Body :
-```json 
-{
-    "approved_by_admin" : "boolean"
-}
-```
 
 Response :
 
@@ -637,16 +693,11 @@ Response :
 ## [PUT] Approve Order from list as Seller
 Request :
 - Method : PUT
-- Endpoint : `/api/order/seller/approve?order_id={number}`
+- Endpoint : `/api/order/seller/approve?order_id={number}&value={boolean}`
 - Header :
+    - Authorization : "Bearer " + token
     - Content-Type: application/json
     - Accept: application/json
-- Body :
-```json 
-{
-    "approved_by_seller" : "boolean"
-}
-```
 
 Response :
 
