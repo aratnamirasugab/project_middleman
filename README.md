@@ -1,6 +1,6 @@
 # API Middleman
 # --- Credentials Section ---
-## Register
+## [POST] Register
 Request :
 - Method : POST
 - Endpoint : `/api/register`
@@ -11,7 +11,7 @@ Request :
     
 ```json 
 {
-    "name" : "string",
+    "username" : "string",
     "email" : "string",
     "password" : "string"
 }
@@ -29,7 +29,7 @@ Response :
 }
 ```
 
-## Login
+## [POST] Login
 Request :
 - Method : POST
 - Endpoint : `/api/login`
@@ -57,7 +57,7 @@ Response :
 }
 ```
 
-## De-actived account
+## [DELETE] De-actived account
 Request :
 - Method : DELETE
 - Endpoint : `/api/profile/de-actived`
@@ -78,7 +78,7 @@ Response :
 }
 ```
 
-## Change Password
+## [POST] Change Password
 Request :
 - Method : POST
 - Endpoint : `/api/profile/edit/password`
@@ -108,7 +108,7 @@ Response :
 ```
 
 # --- User Section ---
-## Get Profile Info
+## [GET] Profile Info
 Request :
 - Method : GET
 - Endpoint : `/api/profile`
@@ -128,19 +128,17 @@ Response :
          "avatar" : "string",
          "joined_on" : "string",
          "email" : "string",
-         "admin" "boolean",
+         "admin" : "boolean",
          "circle_info" : {
-             [
-                "cicle_name": "string",
-                "total_member" : "number",
-                "admin" : "boolean"
-             ]
+            "cicle_name": "string",
+            "total_member" : "number",
+            "admin" : "boolean"
          }
      }
 }
 ```
 
-## Add Profile Picture
+## [POST] Add Profile Picture
 Request :
 - Method : POST
 - Endpoint : `/api/profile/upload/avatar`
@@ -168,7 +166,7 @@ Response :
 ```
 
 
-## Add Phone Number
+## [POST] Add Phone Number
 Request :
 - Method : POST
 - Endpoint : `/api/profile/edit/phone_number`
@@ -197,10 +195,10 @@ Response :
 
 
 # --- Item Section ---
-## Add Item
+## [POST] Add Item
 Request :
 - Method : POST
-- Endpoint : `/api/item`
+- Endpoint : `/api/item/create`
 - Header :
     - Authorization : "Bearer " + token
     - Content-Type: application/json
@@ -229,7 +227,7 @@ Response :
 }
 ```
 
-## Update Item
+## [PUT] Update Item
 Request :
 - Method : PUT
 - Endpoint : `/api/item?id={number}/edit'
@@ -243,7 +241,7 @@ Request :
 {
     "name" : "string",
     "description" : "string",
-    "image" "string",
+    "image" : "string",
     "quantity" : "number",
     "price" : "number"
 }
@@ -261,7 +259,7 @@ Response :
 }
 ```
 
-## Delete Item
+## [DELETE] Delete Item
 Request :
 - Method : DELETE
 - Endpoint : `/api/item?id={number}`
@@ -284,7 +282,7 @@ Response :
 
 
 # --- Circle Section ---
-## Create Circle
+## [POST] Create Circle
 Request :
 - Method : POST
 - Endpoint : `/api/circle/create`
@@ -314,9 +312,9 @@ Response :
 }
 ```
 
-## Edit Circle Info
+## [PUT] Edit Circle Info
 Request :
-- Method : PATCH
+- Method : PUT
 - Endpoint : `/api/circle/edit`
 - Header :
     - Authorization : "Bearer " + token
@@ -326,9 +324,7 @@ Request :
     
 ```json 
 {
-    "name" : "string",
-    "description" : "string",
-    "circle_avatar" : "string"
+    "description" : "string"
 }
 ```
 
@@ -344,7 +340,35 @@ Response :
 }
 ```
 
-## Add Member to Circle
+## [POST] Upload Circle Avatar
+Request :
+- Method : POST
+- Endpoint : `/api/circle/avatar/upload`
+- Header :
+    - Authorization : "Bearer " + token
+    - Content-Type: application/json
+    - Accept: application/json
+- Body :
+    
+```json 
+{
+    "avatar" : "string"
+}
+```
+
+Response :
+
+```json 
+{
+    "code" : "number",
+    "status" : "string",
+    "data" : {
+         "message" : "string"
+     }
+}
+```
+
+## [POST] Add Member to Circle
 Request :
 - Method : POST
 - Endpoint : `/api/circle/invite?username={string}`
@@ -365,7 +389,7 @@ Response :
 }
 ```
 
-## Remove Member from Circle as Admin
+## [DELETE] Remove Member from Circle as Admin
 Request :
 - Method : DELETE
 - Endpoint : `/api/circle/remove?username={string}`
@@ -386,7 +410,7 @@ Response :
 }
 ```
 
-## Quit from Circle
+## [DELETE] Quit from Circle
 Request :
 - Method : DELETE
 - Endpoint : `/api/circle/quit`
@@ -408,26 +432,25 @@ Response :
 ```
 
 # --- Shipping Section ---
-## Get Shipping Cost
+## [GET] Get Shipping Cost
 Request :
 - Method : GET
-- Endpoint : `/api/shipping/fee`
+- Endpoint : `/api/shipping/cost`
 - Header :
     - Content-Type: application/json
     - Accept: application/json
 - Body :
-    
+    - *Available shipping service : ["JNE", "TIKI", "POS"] *pick 1
 ```json 
 {
-    "origin" : number,
-    "destination" : number,
-    "weight" : number,
-    "courier" : ["jne", "tiki", "pos"] *pick 1
+    "origin" : "number",
+    "destination" : "number",
+    "weight" : "number",
+    "courier" : "string"
 }
 ```
 
 Response :
-
 ```json 
 {
     "code" : "number",
@@ -463,11 +486,11 @@ Response :
                 ]
             }
         ]
-     }
+    }
 }
 ```
 
-## Get Mapping Address
+## [GET] Get Mapping Address
 Request :
 - Method : GET
 - Endpoint : `/api/shipping/address`
@@ -489,3 +512,48 @@ Response :
 ```
 
 # --- Order Section ---
+## [POST] Order an Item
+Request :
+- Method : POST
+- Endpoint : `/api/order`
+- Header :
+    - Authorization : "Bearer " + token
+    - Content-Type: application/json
+    - Accept: application/json
+- Body :
+    
+```json 
+{
+    "buyer_id" : "number",
+    "seller_id" : "number",
+    "approved_by_id" : "number",
+    "shipping_address" : "text",
+    "item_id" : "number",
+    "notes" : "text",
+    "quantity" : "number",
+    "shipping_price" : "number",
+    "total_price" : "number"
+}
+```
+
+## [GET] Get orders for approval as Admin
+Request :
+- Method : GET
+- Endpoint : `/api/orders`
+- Header :
+    - Authorization : "Bearer " + token
+    - Content-Type: application/json
+    - Accept: application/json
+
+Response :
+
+```json 
+{
+    "code" : "number",
+    "status" : "string",
+    "data" : {
+         "message" : "string",
+ 
+     }
+}
+```
