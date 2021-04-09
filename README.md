@@ -512,7 +512,7 @@ Response :
 ```
 
 # --- Order Section ---
-## [POST] Order an Item
+## [POST] Order Item
 Request :
 - Method : POST
 - Endpoint : `/api/order`
@@ -549,10 +549,10 @@ Request :
 }
 ```
 
-## [GET] Get orders for approval as Admin
+## [GET] Get orders waiting approval as Admin
 Request :
 - Method : GET
-- Endpoint : `/api/orders`
+- Endpoint : `/api/admin/orders`
 - Header :
     - Authorization : "Bearer " + token
     - Content-Type: application/json
@@ -566,8 +566,72 @@ Response :
     "status" : "string",
     "data" : {
         "message" : "string",
-        
- 
+        "orders" : [
+            {
+                "id" : "number",
+                "buyer_id" : "number",
+                "seller_id" : "number",
+                "item_list" : [
+                    {
+                        "item_id" : "number",
+                        "item_name" : "string",
+                        "price" : "number",
+                        "quantity" : "number"
+                    },
+                    {
+                        "item_id" : "number",
+                        "item_name" : "string",
+                        "price" : "number",
+                        "quantity" : "number"
+                    }
+                ]
+            },
+            {
+                "id" : "number",
+                "buyer_id" : "number",
+                "seller_id" : "number",
+                "item_list" : [
+                    {
+                        "item_id" : "number",
+                        "item_name" : "string",
+                        "price" : "number",
+                        "quantity" : "number"
+                    },
+                    {
+                        "item_id" : "number",
+                        "item_name" : "string",
+                        "price" : "number",
+                        "quantity" : "number"
+                    }
+                ]
+            }
+        ]
      }
+}
+```
+
+## [PUT] Approve order from list
+Request :
+- Method : PUT
+- Endpoint : `/api/admin/orders/approve?order_id={number}`
+- Header :
+    - Content-Type: application/json
+    - Accept: application/json
+- Body :
+```json 
+{
+    "approved_by_admin" : "boolean"
+}
+```
+
+Response :
+
+```json 
+{
+    "code" : "number",
+    "status" : "string",
+    "data" : {
+        "message" : "string"
+    }
 }
 ```
