@@ -492,6 +492,64 @@ Response :
 }
 ```
 
+## [GET] Get Circle's Bonus Scheme
+Request :
+- Method : GET
+- Endpoint : `/api/circle/bonus`
+- Header :
+    - Authorization : "Bearer " + token
+    - Content-Type: application/json
+    - Accept: application/json
+
+Response :
+
+```json 
+{
+    "code" : "number",
+    "status" : "string",
+    "data" : {
+        "message" : "string",
+        "bonus_scheme" : {
+            "to_seller" : "number",
+            "to_member" : "number"
+        }
+    }
+}
+```
+
+## [POST] Create Circle's Bonus Scheme
+Request :
+- Method : POST
+- Endpoint : `/api/circle/bonus/edit`
+- Header :
+    - Authorization : "Bearer " + token
+    - Content-Type: application/json
+    - Accept: application/json
+- Body :
+
+```json 
+{
+    "to_seller" : "number",
+    "to_member" : "number"
+}
+```
+
+Response :
+
+```json 
+{
+    "code" : "number",
+    "status" : "string",
+    "data" : {
+        "message" : "string",
+        "bonus_scheme" : {
+            "to_seller" : "number",
+            "to_member" : "number"
+        }
+    }
+}
+```
+
 # --- Shipping Section ---
 ## [GET] Get Shipping Cost
 Request :
@@ -771,3 +829,5 @@ Response :
     }
 }
 ```
+
+# --- Bank Section ---
