@@ -1,4 +1,26 @@
 # API Middleman
+
+# --- Healthcheck ---
+## [GET] Healthcheck
+Request :
+- Method : GET
+- Endpoint : `/api/healthcheck`
+- Header :
+    - Content-Type: application/json
+    - Accept: application/json
+
+Response :
+
+```json 
+{
+    "code" : "number",
+    "status" : "string",
+    "data" : {
+        "message" : "string"
+    }
+}
+```
+
 # --- Credentials Section ---
 ## [POST] Register
 Request :
