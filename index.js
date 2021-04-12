@@ -5,8 +5,14 @@ const helmet = require('helmet');
 const port = process.env.PORT || 3000;
 
 app.use(helmet());
+app.use(
+    express.urlencoded({
+        extended : true
+    })
+);
 
-console.log("masukk");
+app.use(express.json());
+
 let routes = require('./src/routes');
 routes(app);
 
