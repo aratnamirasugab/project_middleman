@@ -453,7 +453,7 @@ Response :
 ## [DELETE] Remove Member from Circle as Admin
 Request :
 - Method : DELETE
-- Endpoint : `/api/circle/remove?username={string}`
+- Endpoint : `/api/circle/admin/remove?username={string}`
 - Header :
     - Authorization : "Bearer " + token
     - Content-Type: application/json
@@ -467,6 +467,37 @@ Response :
     "status" : "string",
     "data" : {
         "message" : "string"
+    }
+}
+```
+
+## [GET] Quit Request from Member as Admin
+Request :
+- Method : GET
+- Endpoint : `/api/circle/admin/remove_request`
+- Header :
+    - Authorization : "Bearer " + token
+    - Content-Type: application/json
+    - Accept: application/json
+
+Response :
+
+```json
+{
+    "code" : "number",
+    "status" : "string",
+    "data" : {
+        "message" : "string",
+        "list_member" : [
+            {
+                "user_id" : "number",
+                "username" : "string"
+            },
+            {
+                "user_id" : "number",
+                "username" : "string"
+            }
+        ]
     }
 }
 ```
