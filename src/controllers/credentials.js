@@ -1,16 +1,14 @@
 "use strict";
 
-const {register} = require('../services/credentials');
+const service = require('../services/credentials');
 const response = require('../context/response');
 
 exports.register = async function (req, res) {
-    
+
     let DTO = req.body;
 
     try {
-
-        await register(DTO);
-
+        let register = await service.register(DTO);
         return response.ok("Successfully registered", res);
     } catch (error) {
         return response.internal_server_error(error, res);

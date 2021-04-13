@@ -1,12 +1,12 @@
 "use strict";
 
-const {} = require('../repositories/credentials');
+const repository = require('../repositories/credentials');
+const response = require('../context/response');
 
 exports.register = async function(DTO) {
-    
-    try {
-        
-    } catch (error) {
-        
-    }
+    let checkUserAlreadyRegistered = await repository.checkUserByEmail(DTO);
+    // if (!checkUserAlreadyRegistered) {
+        console.log("masuk");
+        return Error("User is already registered");
+    // }
 }
