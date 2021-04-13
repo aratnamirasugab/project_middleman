@@ -1,6 +1,7 @@
 "use strict";
 
 const repository = require('../repositories/credentials');
+const {hashPassword, comparePassword} = require('../helpers/bcrypt');
 
 exports.register = async function(DTO) {
 
@@ -16,7 +17,7 @@ exports.register = async function(DTO) {
 
     let dataToRegister = {
         email : DTO.email,
-        password : DTO.password,
+        password : await hashPassword(DTO.password),
         username : DTO.username
     };
 
@@ -26,5 +27,27 @@ exports.register = async function(DTO) {
             code : 200,
             message : "Successfully registered"
         }
+    }
+}
+
+exports.login = async function (DTO) {
+    
+    let emailOnly = DTO.email;
+
+    let checkUserAlreadyRegistered = await repository.checkUserByEmail(emailOnly);
+    if (!checkUserAlreadyRegistered) {
+        return {
+            code : 404,
+            message : "Account not found"
+        }
+    }
+
+    let valueFromDB = checkUserAlreadyRegistered[0];
+    let passwordCompareResult = await comparePassword(DTO.password, valueFromDB.password);
+    console.log(valueFromDB);
+
+    return {
+        code : 200,
+        message : "Successfully login"
     }
 }

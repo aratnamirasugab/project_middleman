@@ -20,7 +20,7 @@ exports.register = async function (DTO) {
 
 exports.checkUserByEmail = async function (DTO) {
 
-    let query = "SELECT * FROM user WHERE e mail = ?";
+    let query = "SELECT * FROM user WHERE email = ?";
 
     return new Promise(function(resolve, reject) {
         db.query(query, DTO, function(error, rows, fields){

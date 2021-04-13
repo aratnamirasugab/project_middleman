@@ -1,7 +1,10 @@
 "use strict";
 
-const response = require('../context/response');
+const {response} = require('../context/response');
 
 exports.healthcheck = function (req, res) {
-    return response.ok("Middleman project, powered by Nodejs!", res);
+    return response({
+        "code" : 200,
+        "message" : "Middleman project, powered by Nodejs!"
+    }, res);
 };
