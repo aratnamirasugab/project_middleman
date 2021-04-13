@@ -1,7 +1,7 @@
 "use strict";
 
 const service = require('../services/credentials');
-const response = require('../context/response');
+const {response} = require('../context/response');
 
 exports.register = async function (req, res) {
 
@@ -9,8 +9,16 @@ exports.register = async function (req, res) {
 
     try {
         let register = await service.register(DTO);
-        return response.ok("Successfully registered", res);
+        if (register.code === 400 && typeof(register.code) !== undefined) {
+            return response(register, res);
+        }
+
+        let dataToResponse = register;
+        return response(dataToResponse, res);
     } catch (error) {
-        return response.internal_server_error(error, res);
+        return response({
+            "code" : 500,
+            "message" : error
+        }, res);
     }
 }
