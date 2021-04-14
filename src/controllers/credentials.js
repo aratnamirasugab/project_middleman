@@ -34,14 +34,21 @@ exports.login = async function (req, res) {
                 code : login.code,
                 message : login.message
             }, res);
+        } else if (typeof(login.code) !== undefined && login.code === 403) {
+            return response({
+                code : login.code,
+                message : login.message
+            }, res);
         }
+        
+        let dataToResponse = login
 
         return response({
             "code" : 200,
-            "message" : "Successfully login"
+            "message" : "Successfully login",
+            "token" : dataToResponse.token
         }, res);
     } catch (error) {
-        console.log(error);
         return response({
             "code" : 500,
             "message" : error

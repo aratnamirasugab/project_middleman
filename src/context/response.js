@@ -2,15 +2,23 @@
 
 exports.response = function (values, res) {
 
-    let data = {
+    let response = {
         "code" : values.code,
-        "status" : httpStatuses(values.code),
-        "data" : {
-            "message" : values.message
-        }
+        "status" : httpStatuses(values.code)
     }
 
-    res.status(values.code).json(data);
+    let data = {}
+    let excludeField = ["code", "status"];
+
+    Object.entries(values).forEach(item => {
+        if (!excludeField.includes(item[0])) {
+            data[item[0]] = item[1];
+        }
+    });
+
+    response["data"] = data;
+
+    res.status(values.code).json(response);
     res.end();
 }
 
