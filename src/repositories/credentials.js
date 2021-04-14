@@ -1,13 +1,14 @@
 "use strict";
 
 const db = require('../config/db_conn');
+const {generateCurrentTime} = require('../helpers/time');
 
 exports.register = async function (DTO) {
 
-    let query = "INSERT INTO user(email, password, is_admin, username) values(?,?,?,?)"
+    let query = "INSERT INTO user(email, password, is_admin, username, created_at) values(?,?,?,?,?)"
 
     let values = [
-        DTO.email, DTO.password, 0, DTO.username
+        DTO.email, DTO.password, 0, DTO.username, generateCurrentTime()
     ];
 
     return new Promise(function(resolve, reject) {
@@ -26,6 +27,29 @@ exports.checkUserByEmail = async function (DTO) {
         db.query(query, DTO, function(error, rows, fields){
             if (error) reject(error);
             resolve(rows);
+        });
+    });
+}
+
+exports.deactived = async function (userDTO) {
+
+    let query = `
+        UPDATE user
+        SET
+            deleted_at = ?,
+            updated_at = ?
+        WHERE
+            email = ?
+    `
+
+    let values = [
+        generateCurrentTime(), generateCurrentTime(), userDTO.email
+    ];
+
+    return new Promise(function(resolve, reject) {
+        db.query(query, values, function(error, rows, fields) {
+            if (error) reject(error);
+            resolve(rows);    
         });
     });
 }

@@ -2,6 +2,7 @@
 
 const service = require('../services/credentials');
 const {response} = require('../context/response');
+const { deactived } = require('../repositories/credentials');
 
 exports.register = async function (req, res) {
 
@@ -10,11 +11,18 @@ exports.register = async function (req, res) {
     try {
         let register = await service.register(DTO);
         if (register.code === 400 && typeof(register.code) !== undefined) {
-            return response(register, res);
+            return response({
+                code : register.code,
+                message : register.message
+            }, res);
         }
 
         let dataToResponse = register;
-        return response(dataToResponse, res);
+
+        return response({
+            code : dataToResponse.code,
+            message : dataToResponse.message
+        }, res);
     } catch (error) {
         return response({
             "code" : 500,
@@ -47,6 +55,35 @@ exports.login = async function (req, res) {
             "code" : 200,
             "message" : "Successfully login",
             "token" : dataToResponse.token
+        }, res);
+    } catch (error) {
+        return response({
+            "code" : 500,
+            "message" : error
+        }, res);
+    }
+}
+
+exports.deactived = async function (req, res) {
+
+    let DTO = req.body;
+    let userDTO = req.user;
+
+    try {
+
+        if (!DTO.agree) {
+            return response({
+                code : 200,
+                message : "Thank you for staying with us!"
+            }, res);
+        }
+
+        let deactive = await service.deactived(userDTO);
+        let dataToResponse = deactive;
+
+        return response({
+            code : dataToResponse.code,
+            message : dataToResponse.message
         }, res);
     } catch (error) {
         return response({

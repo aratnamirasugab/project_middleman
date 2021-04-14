@@ -55,6 +55,22 @@ exports.login = async function (DTO) {
     return {
         code : 200,
         message : "Successfully login",
-        token : await generateAccessToken(valueFromDB.username)
+        token : await generateAccessToken(valueFromDB)
+    }
+}
+
+exports.deactived = async function (userDTO) {
+
+    let resultFromDB = await repository.deactived(userDTO);
+    if (resultFromDB.affectedRows === 0) {
+        return {
+            code : 500,
+            message : "Failed to deactivate user"
+        }
+    }
+
+    return {
+        code : 200,
+        message : "Successfully deactived the account"
     }
 }

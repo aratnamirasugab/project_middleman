@@ -2,6 +2,8 @@
 
 exports.response = function (values, res) {
 
+    console.log(values);
+
     let response = {
         "code" : values.code,
         "status" : httpStatuses(values.code)

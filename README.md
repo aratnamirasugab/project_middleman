@@ -88,6 +88,13 @@ Request :
     - Authorization: "Bearer " + token
     - Content-Type: application/json
     - Accept: application/json
+- Body : 
+
+```json
+{
+    "agree" : "boolean"
+}
+```
 
 Response :
 
