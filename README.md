@@ -74,7 +74,8 @@ Response :
     "code" : "number",
     "status" : "string",
     "data" : {
-        "message" : "string"
+        "message" : "string",
+        "token" : "string"
     }
 }
 ```

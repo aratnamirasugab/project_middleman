@@ -2,6 +2,7 @@
 
 const repository = require('../repositories/credentials');
 const {hashPassword, comparePassword} = require('../helpers/bcrypt');
+const {generateAccessToken} = require('../middleware/jwt');
 
 exports.register = async function(DTO) {
 
@@ -44,10 +45,16 @@ exports.login = async function (DTO) {
 
     let valueFromDB = checkUserAlreadyRegistered[0];
     let passwordCompareResult = await comparePassword(DTO.password, valueFromDB.password);
-    console.log(valueFromDB);
-
+    if (!passwordCompareResult) {
+        return {
+            code : 403,
+            message : "Wrong credential"
+        }
+    }
+    
     return {
         code : 200,
-        message : "Successfully login"
+        message : "Successfully login",
+        token : await generateAccessToken(valueFromDB.username)
     }
 }

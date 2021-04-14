@@ -14,8 +14,6 @@ exports.hashPassword = async function (password) {
 exports.comparePassword = async function (password, passFromDB) {
     return new Promise(function(resolve, reject) {
         bcyrpt.compare(password, passFromDB, function(err, result){
-            console.log(err);
-            console.log(result);
             if (err) reject(err);
             resolve(result);
         })
