@@ -2,7 +2,6 @@
 
 const service = require('../services/credentials');
 const {response} = require('../context/response');
-const { deactived } = require('../repositories/credentials');
 
 exports.register = async function (req, res) {
 
