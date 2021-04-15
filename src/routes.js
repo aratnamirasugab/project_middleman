@@ -3,7 +3,7 @@
 const {auth} = require('./middleware/auth');
 const {healthcheck} = require('./controllers/healthcheck');
 const {register, login, deactived, changePassword} = require('../src/controllers/credentials');
-const {addPhoneNumber} = require('../src/controllers/profile');
+const {addPhoneNumber, addAddress} = require('../src/controllers/profile');
 
 module.exports = function (app) {
     app.get('/api/healthcheck', healthcheck);
@@ -14,5 +14,6 @@ module.exports = function (app) {
     app.put('/api/profile/edit/password', auth, changePassword);
 
     app.post('/api/profile/edit/phone_number', auth, addPhoneNumber);
+    app.post('/api/profile/edit/address', auth, addAddress);
     
 };

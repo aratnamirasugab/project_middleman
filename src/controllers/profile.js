@@ -22,3 +22,24 @@ exports.addPhoneNumber = async function (req, res) {
         }, res);
     }
 }
+
+exports.addAddress = async function (req, res) {
+
+    let DTO = req.body;
+    let userDTO = req.user;
+
+    try {
+        let result = await service.addAddress(DTO, userDTO);
+        let dataToResponse = result;
+
+        return response({
+            code : dataToResponse.code,
+            message : dataToResponse.message
+        }, res);
+    } catch (error) {
+        return response({
+            code : 500,
+            message : error
+        }, res);
+    }
+}
