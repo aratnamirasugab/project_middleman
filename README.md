@@ -108,9 +108,9 @@ Response :
 }
 ```
 
-## [POST] Change Password
+## [PUT] Change Password
 Request :
-- Method : POST
+- Method : PUT
 - Endpoint : `/api/profile/edit/password`
 - Header :
     - Authorization : "Bearer " + token
@@ -120,8 +120,7 @@ Request :
 ```json 
 {
    "old_password" : "string",
-   "new_password" : "string",
-   "confirm_new_password" : "string"
+   "new_password" : "string"
 }
 ```
 

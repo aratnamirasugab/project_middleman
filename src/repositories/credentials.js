@@ -1,5 +1,6 @@
 "use strict";
 
+const { func } = require('joi');
 const db = require('../config/db_conn');
 const {generateCurrentTime} = require('../helpers/time');
 
@@ -52,4 +53,27 @@ exports.deactived = async function (userDTO) {
             resolve(rows);    
         });
     });
+}
+
+exports.changePassword = async function (DTO, userDTO) {
+    
+    let query = `
+        UPDATE user
+        SET
+            password = ?,
+            updated_at = ?
+        WHERE
+            email = ?
+    `
+
+    let values = [
+        DTO.new_password, generateCurrentTime(), userDTO.email
+    ]
+
+    return new Promise(function(resolve, reject) {
+        db.query(query, values, function(error, rows, fields) {
+            if (error) reject(error);
+            resolve(rows);
+        })
+    })
 }

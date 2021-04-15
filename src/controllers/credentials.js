@@ -91,3 +91,24 @@ exports.deactived = async function (req, res) {
         }, res);
     }
 }
+
+exports.changePassword = async function (req, res) {
+    
+    let DTO = req.body;
+    let userDTO = req.user;
+
+    try {
+        let changeToNewPasswd = await service.changePassword(DTO, userDTO);
+        let dataToResponse = changeToNewPasswd;
+
+        return response({
+            code : dataToResponse.code,
+            message : dataToResponse.message
+        }, res);
+    } catch (error) {
+        return response({
+            "code" : 500,
+            "message" : error
+        })
+    }
+}
