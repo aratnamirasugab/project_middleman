@@ -1,6 +1,5 @@
 "use strict";
 
-const { func } = require('joi');
 const db = require('../config/db_conn');
 const {generateCurrentTime} = require('../helpers/time');
 

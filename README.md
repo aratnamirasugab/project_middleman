@@ -222,6 +222,33 @@ Response :
 }
 ```
 
+## [POST] Add Address
+Request :
+- Method : POST
+- Endpoint : `/api/profile/edit/address`
+- Header :
+    - Authorization : "Bearer " + token
+    - Content-Type: application/json
+    - Accept: application/json
+- Body :
+```json 
+{
+   "address" : "text"
+}
+```
+
+Response :
+
+```json 
+{
+    "code" : "number",
+    "status" : "string",
+    "data" : {
+        "message" : "string"
+    }
+}
+```
+
 
 # --- Item Section ---
 ## [POST] Add Item
