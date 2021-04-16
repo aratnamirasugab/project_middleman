@@ -43,3 +43,23 @@ exports.addAddress = async function (req, res) {
         }, res);
     }
 }
+
+exports.addProfilePicture = async function (req, res) {
+    
+    try {
+
+        console.log(req.file);
+        
+        
+        return response({
+            code : 200,
+            message : "Successfully upload the file"
+        }, res);
+    } catch (error) {
+        return response({
+            code : 500,
+            message : error
+        })
+    }
+}
+

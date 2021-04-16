@@ -30,17 +30,23 @@ exports.addAdress = async function (DTO, userDTO) {
     
     let query = `
         INSERT INTO user_detail (
-            ${userDTO.id}, ${DTO.address}, ${generateCurrentTime()}
+            user_id, address, created_at
         )
         VALUES (
             ?,?,?
         )
-        ON DUPLICATE KEY UPDATE
-        address = ${DTO.address}, update_at = ${generateCurrentTime()}
+        ON DUPLICATE KEY 
+        UPDATE
+            address = ?, updated_at = ?
     `
 
+    let values = [
+        userDTO.id, DTO.address, generateCurrentTime(),
+        DTO.address, generateCurrentTime()
+    ]
+
     return new Promise(function(resolve, reject) {
-        db.query(query, function(error, rows, fields) {
+        db.query(query, values, function(error, rows, fields) {
             if (error) reject(error)
             resolve(rows);
         })
