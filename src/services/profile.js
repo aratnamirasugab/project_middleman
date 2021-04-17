@@ -67,3 +67,10 @@ exports.addProfilePicture = async function (DTO, userDTO) {
         }
     }
 }
+
+exports.getProfileInfo = async function (userDTO) {
+
+    let resultFromDB = await repository.getProfileInfo(userDTO);
+
+    console.log(resultFromDB);
+}

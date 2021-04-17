@@ -64,7 +64,27 @@ exports.addProfilePicture = async function (req, res) {
             }, res);  
         })
     } catch (error) {
-        console.log(error);
+        return response({
+            code : 500,
+            message : error
+        }, res);
+    }
+}
+
+exports.getProfileInfo = async function (req, res) {
+
+    let userDTO = req.user;
+
+    try {
+
+        let result = await service.getProfileInfo(userDTO);
+
+        return response({
+            code : result.code,
+            message : result.message
+        }, res);
+        
+    } catch (error) {
         return response({
             code : 500,
             message : error

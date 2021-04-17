@@ -3,7 +3,9 @@
 const {auth} = require('./middleware/auth');
 const {healthcheck} = require('./controllers/healthcheck');
 const {register, login, deactived, changePassword} = require('../src/controllers/credentials');
-const {addPhoneNumber, addAddress, addProfilePicture} = require('../src/controllers/profile');
+const {addPhoneNumber, addAddress, addProfilePicture, getProfileInfo} = require('../src/controllers/profile');
+const {addItem} = require('../src/controllers/item');
+let {upload} = require('./middleware/multer');
 
 module.exports = function (app) {
     app.get('/api/healthcheck', healthcheck);
@@ -16,5 +18,8 @@ module.exports = function (app) {
     app.post('/api/profile/edit/phone_number', auth, addPhoneNumber);
     app.post('/api/profile/edit/address', auth, addAddress);
     app.post('/api/profile/upload/avatar', auth, addProfilePicture);
+    app.get('/api/profile', auth, getProfileInfo);
+
+    app.post('/api/item/create', auth, upload.any(), addItem);
     
 };

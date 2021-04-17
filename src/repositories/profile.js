@@ -55,8 +55,6 @@ exports.addAdress = async function (DTO, userDTO) {
 
 exports.addProfilePicture = async function (DTO, userDTO) {
 
-    console.log(DTO, userDTO);
-
     let query = `
         INSERT INTO user_detail(
             user_id, avatar, created_at
@@ -73,6 +71,35 @@ exports.addProfilePicture = async function (DTO, userDTO) {
         userDTO.id, DTO.filename, generateCurrentTime(),
         DTO.filename, generateCurrentTime()
     ];
+    
+    return new Promise(function(resolve, reject) {
+        db.query(query, values, function(error, rows, fields) {
+            if (error) reject(error)
+            resolve(rows);            
+        })
+    })
+}
+
+exports.getProfileInfo = async function (userDTO) {
+
+    let query = `
+        SELECT
+            u.id, u.name, u.email, u.is_admin,
+            u.username, u.created_at,
+            ud.address, ud.phone_number,
+            ud.avatar,
+            c.name AS circle_name
+        FROM
+            user u
+            INNER JOIN user_detail ud ON u.id = ud.user_id
+            INNER JOIN circle_member cm ON cm.user_id = ?
+            INNER JOIN circle c ON cm.circle_id = c.id
+        WHERE u.id = ?;
+    `
+
+    let values = [
+        userDTO.id, userDTO.id
+    ]
     
     return new Promise(function(resolve, reject) {
         db.query(query, values, function(error, rows, fields) {
