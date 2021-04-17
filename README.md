@@ -173,13 +173,12 @@ Request :
 - Endpoint : `/api/profile/upload/avatar`
 - Header :
     - Authorization : "Bearer " + token
-    - Content-Type: application/json
-    - Accept: application/json
+    - Content-Type: multipart/form-data
 - Body :
-```json 
+```form-data
 {
-   "avatar" : "string"
-}
+    KEY : VALUE(FILE)
+} 
 ```
 
 Response :
