@@ -2,7 +2,6 @@
 
 const {response} = require('../context/response');
 const service = require('../services/item');
-const {upload} = require('../middleware/multer');
 
 exports.addItem = async function (req, res) {
 
@@ -16,7 +15,7 @@ exports.addItem = async function (req, res) {
         return response({
             code : result.code,
             message : result.message
-        })
+        }, res);
         
     } catch (error) {
         return response({

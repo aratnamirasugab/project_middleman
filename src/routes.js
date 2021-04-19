@@ -20,6 +20,6 @@ module.exports = function (app) {
     app.post('/api/profile/upload/avatar', auth, addProfilePicture);
     app.get('/api/profile', auth, getProfileInfo);
 
-    app.post('/api/item/create', auth, upload.any(), addItem);
+    app.post('/api/item/create', auth, upload.any('item'), addItem);
     
 };

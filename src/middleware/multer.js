@@ -8,11 +8,12 @@ exports.upload = multer({
         destination : function (req, file, cb) {
             let destination = req.url.split('/');
             let path = './uploads/' + destination[2] + "/";
-            // fs.mkdirSync(path);
             cb(null, path);
         },
         filename : function (req, file, cb) {
-            cb(null, (req.user.id + "-" + file.fieldname + "-" + file.originalname).toLowerCase());
+            let filename = req.user.id + "-" + file.fieldname + "-" + file.originalname.toLowerCase();
+            req.body.filename = filename;
+            cb(null, filename);
         }
     })    
 });
