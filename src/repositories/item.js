@@ -59,3 +59,23 @@ exports.addItem = async function (DTO, userDTO) {
         })
     })
 }
+
+exports.getAllItem = async function (userDTO) {
+    
+    let query = `
+        SELECT * FROM item
+        WHERE
+            user_id = ?
+    `
+
+    let values = [
+        userDTO.id
+    ]
+
+    return new Promise(function(resolve, reject) {
+        db.query(query, values, function (error, result, fields) {
+            if (error) reject(error);
+            resolve(result)
+        })
+    })
+}

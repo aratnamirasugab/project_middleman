@@ -21,6 +21,28 @@ exports.addItem = async function (req, res) {
         return response({
             code : 500,
             messsage : error
-        })
+        }, res);
+    }
+}
+
+exports.getAllItem = async function (req, res) {
+
+    let userDTO = req.user;
+
+    try {
+
+        let result = await service.getAllItem(userDTO);
+
+        return response({
+            code : result.code,
+            message : result.message,
+            list_item : result.list_item
+        }, res);
+        
+    } catch (error) {
+        return response({
+            code : 500,
+            message : error
+        }, res);
     }
 }
