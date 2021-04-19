@@ -253,22 +253,38 @@ Response :
 ## [POST] Add Item
 Request :
 - Method : POST
-- Endpoint : `/api/item/create`
+- Endpoint : '/api/item/create'
 - Header :
     - Authorization : "Bearer " + token
-    - Content-Type: application/json
-    - Accept: application/json
-- Body :
-    
-```json 
+- Form Data: 
+```json
 {
     "name" : "string",
     "description" : "string",
-    "image" : "string",
+    "image" : "@/home/wayan/Downloads/569b49f35215b9d6206bfe4bbbffba56.jpeg(string but file location)",
     "quantity" : "number",
     "price" : "number"
 }
 ```
+
+Response :
+
+```json 
+{
+    "code" : "number",
+    "status" : "string",
+    "data" : {
+        "message" : "string"
+    }
+}
+```
+
+## [GET] Get all item
+Request :
+- Method : GET
+- Endpoint : '/api/item/list'
+- Header :
+    - Authorization : "Bearer " + token
 
 Response :
 
