@@ -293,7 +293,21 @@ Response :
     "code" : "number",
     "status" : "string",
     "data" : {
-        "message" : "string"
+        "message" : "string",
+        "list_item" : [
+            {
+                "name" : "string",
+                "stock" : "number",
+                "price" : "number",
+                "added_at" : "date"
+            },
+            {
+                "name" : "string",
+                "stock" : "number",
+                "price" : "number",
+                "added_at" : "date"
+            }
+        ]
     }
 }
 ```
