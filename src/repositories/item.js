@@ -79,3 +79,32 @@ exports.getAllItem = async function (userDTO) {
         })
     })
 }
+
+exports.deleteItem = async function (paramDTO) {
+    
+    let query_item = `
+        DELETE FROM item
+        WHERE
+            id = ${paramDTO.id}
+    `
+
+    let query_item_image = `
+        DELETE FROM item_image
+        WHERE
+            item_id = ${paramDTO.id}
+    `
+
+    return new Promise(function(resolve, reject) {
+        db.query(query_item, function (error, rows, fields) {
+
+            if (error) reject(error)
+
+            db.query(query_item_image, function (error, rows, fields) {
+
+                if (error) reject(error)
+
+                resolve(rows)
+            })
+        })
+    })
+}

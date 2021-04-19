@@ -347,11 +347,18 @@ Response :
 ## [DELETE] Delete Item
 Request :
 - Method : DELETE
-- Endpoint : `/api/item?id={number}`
+- Endpoint : `/api/item/delete`
 - Header :
     - Authorization : "Bearer " + token
     - Content-Type: application/json
     - Accept: application/json
+
+- Query param :
+```json
+{
+    "id" : "number"
+}
+```
     
 Response :
 

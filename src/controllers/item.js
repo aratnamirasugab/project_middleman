@@ -46,3 +46,25 @@ exports.getAllItem = async function (req, res) {
         }, res);
     }
 }
+
+exports.deleteItem = async function (req, res) {
+    
+    let paramDTO = req.query;
+
+    try {
+        
+        let result = await service.deleteItem(paramDTO)
+
+        return response({
+            code : result.code,
+            message : result.message
+        }, res);
+
+    } catch (error) {
+        console.log(error);
+        return response({
+            code : 500,
+            message : error
+        }, res)   
+    }
+}

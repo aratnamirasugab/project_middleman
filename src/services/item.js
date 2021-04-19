@@ -38,3 +38,21 @@ exports.getAllItem = async function (userDTO) {
         list_item : list_item
     }
 }
+
+exports.deleteItem = async function (paramDTO) {
+
+    let resultFromDB = await repository.deleteItem(paramDTO)
+
+    if (resultFromDB.affectedRows === 1) {
+        return {
+            code : 200,
+            message : "Successfully deleted the item"
+        }
+    } else {
+        return {
+            code : 500,
+            message : "Failed to delete the item"
+        }
+    }
+    
+}
