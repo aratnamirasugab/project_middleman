@@ -128,3 +128,26 @@ exports.editCircleInfo = async function (DTO, userDTO) {
         })
     })
 }
+
+exports.updateCircleAvatar = async function (DTO, userDTO) {
+
+    let query_circle = `
+        UPDATE circle
+        SET
+            circle_avatar = ?,
+            updated_at = ?
+        WHERE 
+            admin_id = ?
+    `
+    
+    let values_circle = [
+        DTO.filename, generateCurrentTime(), userDTO.id
+    ]
+
+    return new Promise(function (resolve, reject) {
+        db.query(query_circle, values_circle, function (err, rows, fields) {
+            if (err) reject(err)
+            resolve(rows)
+        })
+    })
+}

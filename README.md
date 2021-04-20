@@ -430,19 +430,17 @@ Response :
 }
 ```
 
-## [POST] Upload Circle Avatar
+## [PUT] Update Circle Avatar
 Request :
 - Method : POST
 - Endpoint : `/api/circle/avatar/upload`
 - Header :
     - Authorization : "Bearer " + token
-    - Content-Type: application/json
-    - Accept: application/json
-- Body :
+- Form-Data :
     
 ```json 
 {
-    "avatar" : "string"
+    "circle_avatar" : "filelocation"
 }
 ```
 

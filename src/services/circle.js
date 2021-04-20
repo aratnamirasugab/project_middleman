@@ -41,3 +41,19 @@ exports.editCircleInfo = async function (DTO, userDTO) {
         message : "Successfully edited circle info"
     }
 }
+
+exports.updateCircleAvatar = async function (DTO, userDTO) {
+
+    let updateCircleAvatarToDB = await repository.updateCircleAvatar(DTO, userDTO)
+    if (updateCircleAvatarToDB.affectedRows === 0) {
+        return {
+            code : 500,
+            message : "Failed to update circle info"
+        }
+    }
+
+    return {
+        code : 200,
+        message : "Successfully edited circle info"
+    }
+}
