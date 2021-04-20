@@ -456,14 +456,21 @@ Response :
 }
 ```
 
-## [POST] Add Member to Circle
+## [POST] Invite Member to Circle
 Request :
 - Method : POST
-- Endpoint : `/api/circle/invite?username={string}`
+- Endpoint : `/api/circle/invite`
 - Header :
     - Authorization : "Bearer " + token
     - Content-Type: application/json
     - Accept: application/json
+- Query Param : 
+```json
+{
+    "username" : "string"
+}
+
+```
 
 Response :
 
