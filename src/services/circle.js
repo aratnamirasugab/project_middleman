@@ -25,3 +25,19 @@ exports.createCircle = async function (DTO, userDTO) {
         message : "Successfully created new circle"
     }
 }
+
+exports.editCircleInfo = async function (DTO, userDTO) {
+
+    let editCircleInfoToDB = await repository.editCircleInfo(DTO, userDTO)
+    if (editCircleInfoToDB.affectedRows === 0) {
+        return {
+            code : 500,
+            message : "Failed to update circle info"
+        }
+    }
+
+    return {
+        code : 200,
+        message : "Successfully edited circle info"
+    }
+}

@@ -380,15 +380,13 @@ Request :
 - Endpoint : `/api/circle/create`
 - Header :
     - Authorization : "Bearer " + token
-    - Content-Type: application/json
-    - Accept: application/json
-- Body :
+- Form-Data :
     
 ```json 
 {
     "name" : "string",
     "description" : "string",
-    "circle_avatar" : "string"
+    "circle_avatar" : "filelocation"
 }
 ```
 

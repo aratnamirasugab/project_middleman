@@ -5,7 +5,7 @@ const {healthcheck} = require('./controllers/healthcheck');
 const {register, login, deactived, changePassword} = require('../src/controllers/credentials');
 const {addPhoneNumber, addAddress, addProfilePicture, getProfileInfo} = require('../src/controllers/profile');
 const {addItem, getAllItem, deleteItem} = require('../src/controllers/item');
-const {createCircle} = require('../src/controllers/circle');
+const {createCircle, editCircleInfo} = require('../src/controllers/circle');
 let {upload} = require('./middleware/multer');
 
 module.exports = function (app) {
@@ -26,5 +26,6 @@ module.exports = function (app) {
     app.delete('/api/item/delete', auth, deleteItem);
 
     app.post('/api/circle/create', auth, upload.any(), createCircle);
+    app.put('/api/circle/edit', auth, editCircleInfo);
     
 };

@@ -105,3 +105,26 @@ exports.createCircle = async function (DTO, userDTO) {
         })
     })
 }
+
+exports.editCircleInfo = async function (DTO, userDTO) {
+
+    let query_circle = `
+        UPDATE circle
+        SET
+            description = ?,
+            updated_at = ?
+        WHERE 
+            admin_id = ?
+    `
+    
+    let values_circle = [
+        DTO.description, generateCurrentTime(), userDTO.id
+    ]
+
+    return new Promise(function (resolve, reject) {
+        db.query(query_circle, values_circle, function (err, rows, fields) {
+            if (err) reject(err)
+            resolve(rows)
+        })
+    })
+}

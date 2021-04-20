@@ -18,7 +18,28 @@ exports.createCircle = async function (req, res) {
         }, res);
         
     } catch (error) {
-        console.log(error);
+        return response({
+            code : 500,
+            messsage : error
+        }, res);
+    }
+}
+
+exports.editCircleInfo = async function (req, res) {
+
+    let DTO = req.body;
+    let userDTO = req.user;
+
+    try {
+
+        let result = await service.editCircleInfo(DTO, userDTO);
+        
+        return response({
+            code : result.code,
+            messsage : result.message
+        }, res);
+
+    } catch (error) {
         return response({
             code : 500,
             messsage : error
