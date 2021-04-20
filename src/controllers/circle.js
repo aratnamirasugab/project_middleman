@@ -18,6 +18,7 @@ exports.createCircle = async function (req, res) {
         }, res);
         
     } catch (error) {
+        console.log(error);
         return response({
             code : 500,
             messsage : error

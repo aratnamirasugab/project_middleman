@@ -25,6 +25,6 @@ module.exports = function (app) {
     app.get('/api/item/list', auth, getAllItem);
     app.delete('/api/item/delete', auth, deleteItem);
 
-    app.post('/api/circle/create', auth, createCircle);
+    app.post('/api/circle/create', auth, upload.any(), createCircle);
     
 };

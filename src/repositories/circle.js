@@ -1,6 +1,7 @@
 "use strict";
 
-const db = require('../config/db_conn')
+const db = require('../config/db_conn');
+const {generateCurrentTime} = require('../helpers/time');
 
 exports.alreadyHasCircle = async function (userDTO) {
     
@@ -27,15 +28,80 @@ exports.alreadyHasCircle = async function (userDTO) {
 
 exports.createCircle = async function (DTO, userDTO) {
 
+    let query_create_circle = `
+        INSERT INTO circle
+        (name, description, circle_avatar, admin_id, created_at)
+        VALUES
+        (?,?,?,?,?)
+    `
+
+    let values_create_circle = [
+        DTO.name, DTO.description, DTO.filename, userDTO.id, generateCurrentTime()
+    ]
 
     return new Promise(function(resolve, reject) {
         db.beginTransaction(function(err) {
+
             if (err) reject(err)
 
-            
-            
-        })
+            db.query(query_create_circle, values_create_circle, function (error, result, fields) {
 
-        
+                if (error) {
+                    db.rollback(function() {
+                        reject(error)
+                    })
+                }
+
+                let query_push_to_table_circle_member = `
+                    INSERT INTO circle_member
+                        (circle_id, user_id, created_at)
+                    VALUES
+                        (?,?,?)
+                `
+                let values_push_to_table_circle_member = [
+                    result.insertId, userDTO.id, generateCurrentTime()
+                ]
+
+                db.query(query_push_to_table_circle_member, values_push_to_table_circle_member, function (error, result, fields) {
+                    
+                    if (error) {
+                        db.rollback(function() {
+                            reject(error)
+                        })
+                    }
+
+                    let query_update_user_is_admin = `
+                        UPDATE user
+                        SET 
+                            is_admin = true,
+                            updated_at = ?
+                        WHERE 
+                            id = ?
+                    `
+                    
+                    let values_update_user_is_admin = [
+                        generateCurrentTime(), userDTO.id
+                    ]
+
+                    db.query(query_update_user_is_admin, values_update_user_is_admin, function (error, result, fields) {
+
+                        if (error) {
+                            db.rollback(function() {
+                                reject(error)
+                            })
+                        }
+
+                        db.commit(function (error) {
+                            if (error) {
+                                return db.rollback(function() {
+                                    reject(error)
+                                })
+                            }
+                            resolve(result)
+                        })
+                    })
+                })
+            })
+        })
     })
 }

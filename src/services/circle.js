@@ -4,17 +4,24 @@ const repository = require('../repositories/circle')
 
 exports.createCircle = async function (DTO, userDTO) {
 
-    // check di table circle member
     let alreadyHasCircle = await repository.alreadyHasCircle(userDTO)
-    if (alreadyHasCircle[0].id) {
+    if (alreadyHasCircle.length !== 0) {
         return {
             code : 200,
             message : "Already on circle"
         }
     }
     
-    // post iamge dan create circle dengan ID user dan update user isadmin true
+    let createCircleToDB = await repository.createCircle(DTO, userDTO)
+    if (createCircleToDB.affectedRows === 0) {
+        return {
+            code : 500,
+            message : "Failed to post create circle to db"
+        }
+    }
 
-    
-    
+    return {
+        code : 200,
+        message : "Successfully created new circle"
+    }
 }
