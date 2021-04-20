@@ -57,3 +57,38 @@ exports.updateCircleAvatar = async function (DTO, userDTO) {
         message : "Successfully edited circle info"
     }
 }
+
+exports.inviteNewMember = async function (paramDTO, userDTO) {
+
+    // search user with given username, if not push error
+    // if found, check if user already on another circle, if yes push error
+    // if no then push into invite table
+    let searchUserWithGivenUsername = await repository.searchUserWithGivenUsername(paramDTO, userDTO)
+    if (searchUserWithGivenUsername.length === 0) {
+        return {
+            code : 200,
+            message : "User with username " + paramDTO.username + " is not found"
+        }
+    }
+
+    let userAlreadyHasCircle = await repository.alreadyHasCircle(searchUserWithGivenUsername[0])
+    if (userAlreadyHasCircle.length !== 0) {
+        return {
+            code : 200,
+            message : `User ${paramDTO.username} already on another circle`
+        }
+    }
+    
+    let pushToCircleInviteTable = await repository.inviteMemberToCircle(searchUserWithGivenUsername[0].id, userDTO)
+    if (pushToCircleInviteTable.affectedRows !== 1) {
+        return {
+            code : 500,
+            messsage : `Failed to invite ${paramDTO.username} to circle`
+        }
+    }
+
+    return {
+        code : 200,
+        message : "Successfully invited " + paramDTO.username
+    }
+}

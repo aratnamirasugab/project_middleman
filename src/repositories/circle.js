@@ -151,3 +151,89 @@ exports.updateCircleAvatar = async function (DTO, userDTO) {
         })
     })
 }
+
+exports.searchUserWithGivenUsername = async function (paramDTO) {
+    
+    let query_user = `
+        SELECT id
+        FROM
+            user
+        WHERE
+            username = ?
+            AND
+            deleted_at IS NULL
+        LIMIT 1
+    `
+    
+    let values_user = [
+        paramDTO.username
+    ]
+
+    return new Promise(function (resolve, reject) {
+        db.query(query_user, values_user, function (err, rows, fields) {
+            if (err) reject(err)
+            resolve(rows)
+        })
+    })
+}
+
+exports.inviteMemberToCircle = async function (member_id, userDTO) {
+    
+    let query_circle = `
+        SELECT id
+        FROM
+            circle
+        WHERE
+            admin_id = ?
+            AND
+            deleted_at IS NULL
+        LIMIT 1
+    `
+
+    let values_circle = [
+        userDTO.id
+    ]
+
+    return new Promise(function (resolve, reject) {
+        db.beginTransaction(function(err) {
+            if (err) reject(err)
+
+            db.query(query_circle, values_circle, function (err, result, fields) {
+    
+                if (err) {
+                    db.rollback(function() {
+                        reject(err)
+                    })
+                }
+
+                let query_invite_member = `
+                    INSERT INTO circle_invitation
+                    (circle_id, admin_id, member_id, created_at)
+                    VALUES(?,?,?,?)
+                `
+
+                let values_invite_member = [
+                    result[0].id, userDTO.id, member_id, generateCurrentTime()   
+                ]
+                
+                db.query(query_invite_member, values_invite_member, function (err, result, fields) {
+                    
+                    if (err) {
+                        db.rollback(function() {
+                            reject(err)
+                        })
+                    }
+
+                    db.commit(function (error) {
+                        if (error) {
+                            return db.rollback(function() {
+                                reject(error)
+                            })
+                        }
+                        resolve(result)
+                    })
+                })
+            })
+        })
+    })
+}
