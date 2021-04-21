@@ -237,3 +237,52 @@ exports.inviteMemberToCircle = async function (member_id, userDTO) {
         })
     })
 }
+
+exports.getCircleInvitation = async function (userDTO) {
+
+    let query = `
+        SELECT 
+            c.id, c.name, c.description, c.admin_id, c.created_at,
+            ci.circle_id,
+            (SELECT username FROM user WHERE id = c.admin_id) AS admin_username
+        FROM
+            circle c
+            INNER JOIN circle_invitation ci ON ci.circle_id = c.id
+        WHERE
+            ci.member_id = ?
+            AND
+            ci.deleted_at IS NULL;
+    `
+
+    let values = [
+        23
+    ]
+
+    return new Promise(function(resolve, reject) {
+        db.query(query, values, function (error, result, fields) {
+            if (error) reject(error)
+            resolve(result)
+        })
+    })
+}
+
+exports.getTotalMemberEachCircleInvite = async function (circle_id) {
+    
+    let query = `
+        SELECT COUNT(*) AS total_member 
+        FROM 
+            circle_member 
+        WHERE 
+            circle_id = ?
+    `
+
+    let values = [circle_id]
+
+    return new Promise(function(resolve, reject) {
+        db.query(query, values, function (error, result, fields) {
+            if (error) reject(error)
+            resolve(result[0].total_member)
+        })
+    })
+}
+

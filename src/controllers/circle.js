@@ -90,3 +90,25 @@ exports.inviteNewMember = async function (req, res) {
         }, res);
     }
 }
+
+exports.getCircleInvitation = async function (req, res) {
+
+    let userDTO = req.user;
+
+    try {
+
+        let result = await service.getCircleInvitation(userDTO)
+
+        return response({
+            code : result.code,
+            message : result.message,
+            invitation_list : result.invitation_list
+        }, res);
+        
+    } catch (error) {
+        return response({
+            code : 500,
+            message : error
+        }, res);
+    }
+}

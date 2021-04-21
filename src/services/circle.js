@@ -92,3 +92,37 @@ exports.inviteNewMember = async function (paramDTO, userDTO) {
         message : "Successfully invited " + paramDTO.username
     }
 }
+
+exports.getCircleInvitation = async function (userDTO) {
+
+    let findInvitationFromDB = await repository.getCircleInvitation(userDTO)
+    let result = []
+    findInvitationFromDB.forEach(item => {
+        result.push({
+            "circle_id" : item["id"],
+            "circle_name" : item["name"],
+            "circle_description" : item["description"],
+            "circle_admin" : item["admin_username"],
+            "founded_at" : item["created_at"]
+        })
+    });
+
+    for (let res of result) {
+        let total_member = await repository.getTotalMemberEachCircleInvite(res["circle_id"])
+        res["total_member"] = total_member
+    }
+
+    if (result.length === 0) {
+        return {
+            code : 200,
+            message : "There is no invitation to join circle yet..",
+            invitation_list : []
+        }
+    } else {
+        return {
+            code : 200,
+            message : "OK",
+            invitation_list : result
+        }
+    }
+}
