@@ -126,3 +126,36 @@ exports.getCircleInvitation = async function (userDTO) {
         }
     }
 }
+
+exports.approveCircleInvitation = async function (paramDTO, userDTO) {
+
+    let alreadyJoinedCircle = await repository.alreadyHasCircle(userDTO)
+    if (alreadyJoinedCircle.length !== 0) {
+        return {
+            code : 400,
+            message : "Can't accept new circle invitation because already on circle"
+        }
+    }
+
+    let invitationExist = await repository.circleInvitationExist(paramDTO.circle_id, userDTO)
+    if (invitationExist === undefined) {
+        return {
+            code : 404,
+            message : "Invitation not found"
+        }
+    }
+
+    let pushToCircleMember = await repository.acceptCircleInvitation(paramDTO.circle_id, userDTO)
+    if (pushToCircleMember.changedRows !== 1) {
+        return {
+            code : 500,
+            message : "Error when accepting circle invitation"
+        }
+    }
+
+    return {
+        code : 200,
+        message : "Invitation accepted."
+    }
+    
+}

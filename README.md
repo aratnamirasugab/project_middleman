@@ -174,10 +174,10 @@ Request :
 - Header :
     - Authorization : "Bearer " + token
     - Content-Type: multipart/form-data
-- Body :
-```form-data
+- Form-Data :
+```
 {
-    KEY : VALUE(FILE)
+    "avatar" : "filelocation"
 } 
 ```
 
@@ -523,14 +523,19 @@ Response :
 }
 ```
 
-## [POST] Approve Circle Invititation
+## [PUT] Approve Circle Invitation
 Request :
 - Method : PUT
-- Endpoint : `/api/circle/invitation/approve?circle_id={number}&value={boolean}`
+- Endpoint : `/api/circle/invitation/approve`
 - Header :
     - Authorization : "Bearer " + token
-    - Content-Type: application/json
     - Accept: application/json
+- Query Param:
+```
+{
+    "circle_id" : "number"
+}
+```
 
 Response :
 

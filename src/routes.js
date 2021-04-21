@@ -5,7 +5,7 @@ const {healthcheck} = require('./controllers/healthcheck');
 const {register, login, deactived, changePassword} = require('../src/controllers/credentials');
 const {addPhoneNumber, addAddress, addProfilePicture, getProfileInfo} = require('../src/controllers/profile');
 const {addItem, getAllItem, deleteItem} = require('../src/controllers/item');
-const {createCircle, editCircleInfo, updateCircleAvatar, inviteNewMember, getCircleInvitation} = require('../src/controllers/circle');
+const {createCircle, editCircleInfo, updateCircleAvatar, inviteNewMember, getCircleInvitation, approveCircleInvitation} = require('../src/controllers/circle');
 let {upload} = require('./middleware/multer');
 
 module.exports = function (app) {
@@ -30,5 +30,6 @@ module.exports = function (app) {
     app.put('/api/circle/avatar/upload', auth, upload.single('circle_avatar'), updateCircleAvatar);
     app.post('/api/circle/invite', auth, inviteNewMember);
     app.get('/api/circle/invitation', auth, getCircleInvitation);
+    app.put('/api/circle/invitation/approve', auth, approveCircleInvitation);
     
 };

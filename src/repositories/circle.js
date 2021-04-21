@@ -11,6 +11,8 @@ exports.alreadyHasCircle = async function (userDTO) {
             circle_member
         WHERE
             user_id = ?
+            AND
+            deleted_at IS NULL
         LIMIT 1
     `
     
@@ -255,7 +257,7 @@ exports.getCircleInvitation = async function (userDTO) {
     `
 
     let values = [
-        23
+        userDTO.id
     ]
 
     return new Promise(function(resolve, reject) {
@@ -286,3 +288,90 @@ exports.getTotalMemberEachCircleInvite = async function (circle_id) {
     })
 }
 
+exports.circleInvitationExist = async function (circle_id, userDTO) {
+
+    let query = `
+        SELECT * 
+        FROM circle_invitation 
+        WHERE 
+            circle_id = ? 
+            AND 
+            member_id = ?
+            AND
+            deleted_at IS NULL 
+            AND 
+            accepted_at IS NULL
+        LIMIT 1
+    `
+
+    let values = [circle_id, 23]
+
+    return new Promise(function(resolve, reject) {
+        db.query(query, values, function (error, result, fields) {
+            if (error) reject(error)
+            resolve(result[0])
+        })
+    })
+}
+
+exports.acceptCircleInvitation = async function (circle_id, userDTO) {
+
+    let query_circle_member = `
+        INSERT INTO
+            circle_member (circle_id, user_id, created_at)
+        VALUES (?,?,?)
+    `
+
+    let values_circle_member = [
+        circle_id, 23, generateCurrentTime()
+    ]
+
+    return new Promise(function(resolve, reject) {
+        db.beginTransaction(function(error) {
+
+            if (error) reject(error)
+
+            db.query(query_circle_member, values_circle_member, function (error, result, fields) {
+
+                if (error) {
+                    db.rollback(function() {
+                        reject(error)
+                    })
+                }
+
+                let query_update_circle_invitation = `
+                    UPDATE circle_invitation
+                    SET
+                        accepted_at = ?,
+                        deleted_at = ?
+                    WHERE
+                        circle_id = ?
+                        AND
+                        member_id = ?
+                `
+
+                let values_update_circle_invitation = [
+                    generateCurrentTime(), generateCurrentTime(), circle_id, 23
+                ]
+
+                db.query(query_update_circle_invitation, values_update_circle_invitation, function (error, result, fields) {
+                    
+                    if (error) {
+                        db.rollback(function() {
+                            reject(error)
+                        })
+                    }
+
+                    db.commit(function (error) {
+                        if (error) {
+                            return db.rollback(function() {
+                                reject(error)
+                            })
+                        }
+                        resolve(result)
+                    })
+                })
+            })
+        })
+    })
+}
