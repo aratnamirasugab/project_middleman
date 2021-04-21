@@ -304,7 +304,7 @@ exports.circleInvitationExist = async function (circle_id, userDTO) {
         LIMIT 1
     `
 
-    let values = [circle_id, 23]
+    let values = [circle_id, userDTO.id]
 
     return new Promise(function(resolve, reject) {
         db.query(query, values, function (error, result, fields) {
@@ -323,7 +323,7 @@ exports.acceptCircleInvitation = async function (circle_id, userDTO) {
     `
 
     let values_circle_member = [
-        circle_id, 23, generateCurrentTime()
+        circle_id, userDTO.id, generateCurrentTime()
     ]
 
     return new Promise(function(resolve, reject) {
@@ -351,7 +351,7 @@ exports.acceptCircleInvitation = async function (circle_id, userDTO) {
                 `
 
                 let values_update_circle_invitation = [
-                    generateCurrentTime(), generateCurrentTime(), circle_id, 23
+                    generateCurrentTime(), generateCurrentTime(), circle_id, userDTO.id
                 ]
 
                 db.query(query_update_circle_invitation, values_update_circle_invitation, function (error, result, fields) {
@@ -374,4 +374,52 @@ exports.acceptCircleInvitation = async function (circle_id, userDTO) {
             })
         })
     })
+}
+
+exports.userAdmin = async function (userDTO) {
+
+    let query = `
+        SELECT is_admin 
+        FROM
+            user
+        WHERE
+            id = ?
+            AND
+            deleted_at IS NULL
+        LIMIT 1
+    `
+
+    let values = [userDTO.id]
+
+    return new Promise(function(resolve, reject) {
+        db.query(query, values, function (error, result, fields) {
+            if (error) reject(error)
+            resolve(result[0])
+        })
+    })
+}
+
+exports.removeMemberFromCircle = async function (member_id) {
+    
+    let query = `
+        UPDATE circle_member
+        SET
+            deleted_at = ?
+        WHERE
+            user_id = ?
+            AND
+            deleted_at IS NULL
+    `
+
+    let values = [
+        generateCurrentTime(), member_id
+    ]
+
+    return new Promise(function(resolve, reject) {
+        db.query(query, values, function (error, result, fields) {
+            if (error) reject(error)
+            resolve(result)
+        })
+    })
+
 }

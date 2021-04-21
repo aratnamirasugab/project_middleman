@@ -157,5 +157,37 @@ exports.approveCircleInvitation = async function (paramDTO, userDTO) {
         code : 200,
         message : "Invitation accepted."
     }
+}
+
+exports.removeMemberAsAdmin = async function (paramDTO, userDTO) {
+
+    let userAdmin = await repository.userAdmin(userDTO)
+    if (!userAdmin.is_admin) {
+        return {
+            code : 403,
+            message : "You're not admin"
+        }
+    }
+
+    let checkMemberExist = await repository.searchUserWithGivenUsername(paramDTO)
+    if (checkMemberExist.length === 0) {
+        return {
+            code : 404,
+            message : "Member not found or perhaps not active anymore"
+        }
+    }
+
+    let updateCircleMember = await repository.removeMemberFromCircle(checkMemberExist[0].id)
+    if (updateCircleMember.changedRows !== 1) {
+        return {
+            code : 500,
+            message : "Error when removing member from circle"
+        }
+    }
+
+    return {
+        code : 200,
+        message : "Member successfully removed."
+    }
     
 }

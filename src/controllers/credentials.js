@@ -109,6 +109,6 @@ exports.changePassword = async function (req, res) {
         return response({
             "code" : 500,
             "message" : error
-        })
+        }, res);
     }
 }

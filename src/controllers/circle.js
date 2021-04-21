@@ -126,10 +126,30 @@ exports.approveCircleInvitation = async function (req, res) {
             message : result.message
         }, res);
     } catch (error) {
-        console.log(error);
         return response({
             code : 500,
             message : error
         }, res);
+    }
+}
+
+exports.removeMemberAsAdmin = async function (req, res) {
+
+    let userDTO = req.user;
+    let paramDTO = req.query;
+
+    try {
+        
+        let result = await service.removeMemberAsAdmin(paramDTO, userDTO)
+
+        return response({
+            code : result.code,
+            message : result.message
+        }, res);
+    } catch (error) {
+        return response({
+            code : 500,
+            message : error
+        }, res);  
     }
 }
