@@ -597,11 +597,13 @@ Response :
         "list_member" : [
             {
                 "user_id" : "number",
-                "username" : "string"
+                "username" : "string",
+                "created_at" : "datetime"
             },
             {
                 "user_id" : "number",
-                "username" : "string"
+                "username" : "string",
+                "created_at" : "datetime"
             }
         ]
     }

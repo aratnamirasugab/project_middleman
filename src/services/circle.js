@@ -232,3 +232,32 @@ exports.quitRequestFromCircle = async function (userDTO) {
     }
     
 }
+
+exports.getQuitRequestListAsAdmin = async function (userDTO) {
+
+    let {is_admin} = await repository.userAdmin(userDTO)
+    if (!is_admin) {
+        return {
+            code : 400,
+            message : "You're not admin"
+        }
+    }
+
+    let quit_list = await repository.findQuitRequestPerCircle(userDTO)
+    let result = []
+
+    quit_list.forEach(item => {
+        result.push({
+            user_id : item["user_id"],
+            username : item["username"],
+            created_at : item["created_at"]
+        })
+    });
+
+    return {
+        code : 200,
+        message : "OK",
+        list_member : result
+    }
+
+}

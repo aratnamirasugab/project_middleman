@@ -514,3 +514,30 @@ exports.findQuitCircleRequestByMemberId = async function (userDTO) {
     })
     
 }
+
+exports.findQuitRequestPerCircle = async function (userDTO) {
+
+    let query = `
+        SELECT 
+            user_id, u.username, cqr.created_at
+        FROM
+            circle_quit_request cqr
+            INNER JOIN circle c ON c.id = cqr.circle_id
+            INNER JOIN user u ON u.id = cqr.user_id
+        WHERE
+            c.admin_id = ?
+        ORDER BY(created_at) DESC;
+    `
+
+    let values = [
+        userDTO.id
+    ]
+
+    return new Promise(function(resolve, reject) {
+        db.query(query, values, function (error, result, fields) {
+            if (error) reject(error)
+            resolve(result)
+        })
+    })
+
+}
