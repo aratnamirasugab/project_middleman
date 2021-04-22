@@ -195,3 +195,25 @@ exports.getQuitRequestListAsAdmin = async function (req, res) {
     }
     
 }
+
+exports.getMemberList = async function (req, res) {
+
+    let userDTO = req.user;
+
+    try {
+
+        let result = await service.getMemberList(userDTO)
+
+        return response({
+            code : result.code,
+            message : result.message,
+            list_member : result.list_member
+        }, res);
+    } catch (error) {
+        return response({
+            code : 500,
+            message : error
+        }, res);
+    }
+    
+}

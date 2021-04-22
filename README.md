@@ -523,6 +523,48 @@ Response :
 }
 ```
 
+## [GET] Get Circle Member
+Request :
+- Method : GET
+- Endpoint : `/api/circle/member_list`
+- Header :
+    - Authorization : "Bearer " + token
+    - Content-Type: application/json
+    - Accept: application/json
+
+- Query Param : 
+```
+{
+    "page" : "number"
+}
+```
+
+Response :
+
+```json 
+{
+    "code" : "number",
+    "status" : "string",
+    "data" : {
+        "message" : "string",
+        "member_list" : [
+            {
+                "id" : "number",
+                "username" : "string",
+                "avatar" : "string",
+                "joined_at" : "date"
+            },
+            {
+                "id" : "number",
+                "username" : "string",
+                "avatar" : "string",
+                "joined_at" : "date"
+            }
+        ]
+    }
+}
+```
+
 ## [PUT] Approve Circle Invitation
 Request :
 - Method : PUT
@@ -548,7 +590,6 @@ Response :
     }
 }
 ```
-
 
 ## [DELETE] Remove Member from Circle as Admin
 Request :

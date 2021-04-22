@@ -177,7 +177,15 @@ exports.removeMemberAsAdmin = async function (paramDTO, userDTO) {
         }
     }
 
-    let updateCircleMember = await repository.removeMemberFromCircle(checkMemberExist[0].id)
+    let checkIfUserAlreadySentQuitRequest = await repository.findQuitCircleRequestByMemberId(checkMemberExist[0])
+    if (!checkIfUserAlreadySentQuitRequest || checkIfUserAlreadySentQuitRequest.length === 0) {
+        return {
+            code : 404,
+            message : "Member hasn't send quit request"
+        }
+    }
+    
+    let updateCircleMember = await repository.removeMemberFromCircle(checkMemberExist[0])
     if (updateCircleMember.changedRows !== 1) {
         return {
             code : 500,
@@ -258,6 +266,18 @@ exports.getQuitRequestListAsAdmin = async function (userDTO) {
         code : 200,
         message : "OK",
         list_member : result
+    }
+
+}
+
+exports.getMemberList = async function (userDTO) {
+    
+    let fetchMemberList = await repository.getMemberList(userDTO)
+    
+    return {
+        code : 200,
+        message : "OK",
+        list_member : fetchMemberList
     }
 
 }

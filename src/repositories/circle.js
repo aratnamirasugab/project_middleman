@@ -399,9 +399,9 @@ exports.userAdmin = async function (userDTO) {
     })
 }
 
-exports.removeMemberFromCircle = async function (member_id) {
+exports.removeMemberFromCircle = async function (DTO) {
     
-    let query = `
+    let query_update_circle_member = `
         UPDATE circle_member
         SET
             deleted_at = ?
@@ -411,17 +411,58 @@ exports.removeMemberFromCircle = async function (member_id) {
             deleted_at IS NULL
     `
 
-    let values = [
-        generateCurrentTime(), member_id
+    let values_update_circle_member = [
+        generateCurrentTime(), DTO.id
     ]
 
     return new Promise(function(resolve, reject) {
-        db.query(query, values, function (error, result, fields) {
+
+        db.beginTransaction(function (error) {
+            
             if (error) reject(error)
-            resolve(result)
+
+            db.query(query_update_circle_member, values_update_circle_member, function (error, result, fields) {
+
+                if (error) {
+                    db.rollback(function () {
+                        reject(error)
+                    })
+                }
+
+                let query_update_circle_quit_request = `
+                    UPDATE circle_quit_request
+                    SET
+                        updated_at = ?,
+                        deleted_at = ?,
+                        approved_by_admin = ?
+                    WHERE
+                        user_id = ?
+                `
+
+                let values_update_circle_quit_request = [
+                    generateCurrentTime(), generateCurrentTime(), true, DTO.id
+                ]
+
+                db.query(query_update_circle_quit_request, values_update_circle_quit_request, function (error, result, fields) {
+                    
+                    if (error) {
+                        db.rollback(function () {
+                            reject(error)
+                        })
+                    }
+
+                    db.commit(function (error) {
+                        if (error) {
+                            return db.rollback(function() {
+                                reject(error)
+                            })
+                        }
+                        resolve(result)
+                    })
+                })
+            })
         })
     })
-
 }
 
 exports.findUserHasCircle = async function (userDTO) {
@@ -540,4 +581,59 @@ exports.findQuitRequestPerCircle = async function (userDTO) {
         })
     })
 
+}
+
+exports.getMemberList = async function (userDTO) {
+
+    let query_circle_member_to_find_circle_id = `
+        SELECT
+            circle_id
+
+        FROM
+            circle_member
+
+        WHERE
+            user_id = ?
+            AND
+            deleted_at IS NULL
+
+        LIMIT 1
+    `
+
+    let values_circle_member_to_find_circle_id = [
+        userDTO.id
+    ]
+    
+    return new Promise(function(resolve, reject) {
+        db.query(query_circle_member_to_find_circle_id, values_circle_member_to_find_circle_id, function (error, result, fields) {
+
+            if (error) reject(error)
+
+            let query_to_find_members_username = `
+                SELECT 
+                    u.id, u.username, ud.avatar, cm.created_at 
+
+                FROM
+                    user u
+                    INNER JOIN circle_member cm ON cm.user_id = u.id
+                    INNER JOIN user_detail ud ON u.id = ud.user_id
+
+                WHERE
+                    cm.circle_id = ?
+                    AND
+                    cm.deleted_at IS NULL;
+            `
+
+            let values_to_find_members_username = [
+                result[0].circle_id
+            ]
+
+            db.query(query_to_find_members_username, values_to_find_members_username, function (error, result, fields) {
+
+                if (error) reject(error)
+
+                resolve(result)  
+            })      
+        })
+    })
 }
