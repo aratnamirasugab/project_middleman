@@ -281,3 +281,28 @@ exports.getMemberList = async function (userDTO) {
     }
 
 }
+
+exports.postBonusScheme = async function (userDTO, DTO) {
+
+    let {is_admin} = await repository.userAdmin(userDTO)
+    if (!is_admin) {
+        return {
+            code : 400,
+            message : "You're not admin"
+        }
+    }
+
+    let {affectedRows} = await repository.pushBonusScheme(userDTO, DTO)
+    if (affectedRows === 0) {
+        return {
+            code : 500,
+            message : "Failed to change circle bonus scheme"
+        }
+    }
+
+    return {
+        code : 200,
+        message : "Successfully changed circle bonus scheme"
+    }
+
+}

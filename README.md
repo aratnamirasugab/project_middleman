@@ -532,13 +532,6 @@ Request :
     - Content-Type: application/json
     - Accept: application/json
 
-- Query Param : 
-```
-{
-    "page" : "number"
-}
-```
-
 Response :
 
 ```json 

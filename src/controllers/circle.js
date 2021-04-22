@@ -217,3 +217,25 @@ exports.getMemberList = async function (req, res) {
     }
     
 }
+
+exports.postBonusScheme = async function (req, res) {
+
+    let userDTO = req.user;
+    let DTO = req.body;
+
+    try {
+        
+        let result = await service.postBonusScheme(userDTO, DTO)
+
+        return response({
+            code : result.code,
+            message : result.message
+        }, res);
+    } catch (error) {
+        return response({
+            code : 500,
+            message : error
+        }, res);
+    }
+    
+}

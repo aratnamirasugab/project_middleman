@@ -611,7 +611,7 @@ exports.getMemberList = async function (userDTO) {
 
             let query_to_find_members_username = `
                 SELECT 
-                    u.id, u.username, ud.avatar, cm.created_at 
+                    u.id, u.username, ud.avatar, cm.created_at as joined_at
 
                 FROM
                     user u
@@ -633,6 +633,68 @@ exports.getMemberList = async function (userDTO) {
                 if (error) reject(error)
 
                 resolve(result)  
+            })      
+        })
+    })
+}
+
+exports.pushBonusScheme = async function (userDTO, DTO) {
+    
+    let query_circle = `
+        SELECT id
+
+        FROM
+            circle
+
+        WHERE
+            admin_id = ?
+            AND
+            deleted_at IS NULL
+
+        LIMIT 1
+    `
+
+    let values_circle = [
+        userDTO.id
+    ]
+
+    return new Promise(function(resolve, reject) {
+        db.query(query_circle, values_circle, function (error, result, fields) {
+
+            if (error) reject(error)
+
+            let query_circle_bonus = `
+                INSERT INTO circle_bonus
+                    (circle_id, to_admin, to_member, created_at)
+                VALUES
+                    (?,?,?,?)
+                ON DUPLICATE KEY UPDATE
+                    to_admin = ?,
+                    to_member = ?,
+                    updated_at = ?
+            `
+            
+            let values_circle_bonus = [
+                result[0].id, DTO.to_admin, DTO.to_member, generateCurrentTime(),
+                DTO.to_admin, DTO.to_member, generateCurrentTime()
+            ]
+
+            db.query(query_circle_bonus, values_circle_bonus, function (error, result, fields) {
+
+                if (error) {
+                    db.rollback(function () {
+                        reject(error)
+                    })
+                }
+
+                db.commit(function (error) {
+                    if (error) {
+                        return db.rollback(function() {
+                            reject(error)
+                        })
+                    }
+                    resolve(result)
+                })                
             })      
         })
     })
