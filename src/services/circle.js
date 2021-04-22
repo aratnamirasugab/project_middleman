@@ -191,3 +191,44 @@ exports.removeMemberAsAdmin = async function (paramDTO, userDTO) {
     }
     
 }
+
+exports.quitRequestFromCircle = async function (userDTO) {
+
+    let findUser = await repository.findUserHasCircle(userDTO)
+    if (typeof(findUser) === undefined || findUser.length === 0) {
+        return {
+            code : 404,
+            message : "You're not a member from circle"
+        }
+    }
+
+    let {is_admin} = await repository.userAdmin(userDTO)
+    if (typeof(is_admin) === undefined || is_admin) {
+        return {
+            code : 400,
+            message : "You're admin, can't quit circle"
+        }
+    }
+
+    let alreadyMadeRequest = await repository.findQuitCircleRequestByMemberId(userDTO)
+    if (alreadyMadeRequest.length !== 0) {
+        return {
+            code : 400,
+            message : "Already made request, wait for admin to decide"
+        }
+    }
+
+    let {affectedRows} = await repository.createQuitRequestFromCircle(findUser[0])
+    if (typeof(affectedRows) == undefined || affectedRows == 0) {
+        return {
+            code : 500,
+            message : "Failed to create quit request from circle"
+        }
+    }
+
+    return {
+        code : 200,
+        message : "Request successfully made"
+    }
+    
+}

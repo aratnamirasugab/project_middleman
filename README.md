@@ -553,11 +553,17 @@ Response :
 ## [DELETE] Remove Member from Circle as Admin
 Request :
 - Method : DELETE
-- Endpoint : `/api/circle/admin/remove?username={string}`
+- Endpoint : `/api/circle/admin/remove`
 - Header :
     - Authorization : "Bearer " + token
     - Content-Type: application/json
     - Accept: application/json
+- Query Param : 
+```
+{
+    "username" : "string"
+}
+```
 
 Response :
 

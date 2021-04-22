@@ -423,3 +423,94 @@ exports.removeMemberFromCircle = async function (member_id) {
     })
 
 }
+
+exports.findUserHasCircle = async function (userDTO) {
+
+    let query = `
+        SELECT *
+        FROM
+            circle_member
+        WHERE
+            user_id = ?
+            AND
+            deleted_at IS NULL
+        LIMIT 1
+    `
+    let values = [
+        userDTO.id
+    ]
+
+    return new Promise(function(resolve, reject) {
+        db.query(query, values, function (error, result, fields) {
+            if (error) reject(error)
+            resolve(result)
+        })
+    })
+    
+}
+
+exports.createQuitRequestFromCircle = async function (DTO) {
+
+    let query = `
+        INSERT INTO
+            circle_quit_request
+        (circle_id, user_id, created_at)
+        VALUES
+        (?,?,?)
+    `
+
+    let values = [
+        DTO.circle_id, DTO.user_id, generateCurrentTime()
+    ]
+
+    return new Promise(function(resolve, reject) {
+        db.beginTransaction(function(error) {
+            if (error) reject(error)
+
+            db.query(query, values, function (error, result, fields) {
+                if (error) {
+                    db.rollback(function () {
+                        reject(error)
+                    })
+                }
+
+                db.commit(function (error) {
+                    if (error) {
+                        return db.rollback(function() {
+                            reject(error)
+                        })
+                    }
+                    resolve(result)
+                })
+            })
+        })
+    })
+}
+
+exports.findQuitCircleRequestByMemberId = async function (userDTO) {
+
+    let query = `
+        SELECT *
+        FROM
+            circle_quit_request
+        WHERE
+            user_id = ?
+            AND
+            approved_by_admin IS NULL
+            AND
+            deleted_at IS NULL
+        LIMIT 1
+    `
+
+    let values = [
+        userDTO.id
+    ]
+
+    return new Promise(function(resolve, reject) {
+        db.query(query, values, function (error, result, fields) {
+            if (error) reject(error)
+            resolve(result)
+        })
+    })
+    
+}
