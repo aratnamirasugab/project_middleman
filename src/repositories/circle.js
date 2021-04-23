@@ -699,3 +699,32 @@ exports.pushBonusScheme = async function (userDTO, DTO) {
         })
     })
 }
+
+exports.getBonusScheme = async function (userDTO) {
+
+    let query = `
+        SELECT
+        	cb.to_admin, cb.to_member, cb.created_at, cb.updated_at
+
+        FROM
+        	circle_member cm
+            INNER JOIN circle c ON cm.circle_id = c.id
+            INNER JOIN circle_bonus cb ON c.id = cb.circle_id
+
+        where
+        	cm.user_id = ?
+            AND
+            cm.deleted_at IS NULL
+        LIMIT 1
+    `
+
+    let values = [userDTO.id]
+
+    return new Promise(function(resolve, reject) {
+        db.query(query, values, function (error, result, fields) {
+            if (error) reject(error)
+            resolve(result)
+        })
+    })
+    
+}

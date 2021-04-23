@@ -239,3 +239,25 @@ exports.postBonusScheme = async function (req, res) {
     }
     
 }
+
+exports.getBonusScheme = async function (req, res) {
+    
+    let userDTO = req.user;
+
+    try {
+
+        let result = await service.getBonusScheme(userDTO)
+
+        return response({
+            code : result.code,
+            message : result.message,
+            bonus_scheme : result.bonus_scheme
+        }, res);
+    } catch (error) {
+        return response({
+            code : 500,
+            message : error
+        }, res);
+    }
+
+}

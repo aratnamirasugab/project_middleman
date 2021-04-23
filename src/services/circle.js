@@ -306,3 +306,27 @@ exports.postBonusScheme = async function (userDTO, DTO) {
     }
 
 }
+
+exports.getBonusScheme = async function (userDTO) {
+
+   let userHasCircle = await repository.alreadyHasCircle(userDTO)
+   if (userHasCircle.length == 0) {
+        return {
+            code : 400,
+            message : "You don't belong to circle yet"
+        }
+   }
+   
+   let bonus = await repository.getBonusScheme(userDTO)
+   return {
+       code : 200,
+       message : "OK",
+       bonus_scheme : {
+           to_admin : bonus[0].to_admin,
+           to_member : bonus[0].to_member,
+           created_at : bonus[0].created_at,
+           updated_at : bonus[0].updated_at
+       }
+   }
+    
+}

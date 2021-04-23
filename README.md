@@ -683,8 +683,10 @@ Response :
     "data" : {
         "message" : "string",
         "bonus_scheme" : {
-            "to_seller" : "number",
-            "to_member" : "number"
+            "to_admin" : "number",
+            "to_member" : "number",
+            "created_at" : "datetime",
+            "updated_at" : "datetime"
         }
     }
 }
@@ -702,7 +704,7 @@ Request :
 
 ```json 
 {
-    "to_seller" : "number",
+    "to_admin" : "number",
     "to_member" : "number"
 }
 ```
