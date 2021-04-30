@@ -37,6 +37,6 @@ module.exports = function (app) {
     app.get('/api/circle/member_list', auth, getMemberList);
     app.post('/api/circle/bonus/edit', auth, postBonusScheme);
     app.get('/api/circle/bonus', auth, getBonusScheme);
-    
+
     
 };
