@@ -13,8 +13,8 @@ exports.addPhoneNumber = async function (DTO, userDTO) {
     `
     
     let values = [
-        userDTO.id, DTO.phone_number, generateCurrentTime(),
-        DTO.phone_number, generateCurrentTime()
+        userDTO.id, DTO.phone_number,
+        DTO.phone_number
     ]
 
     return new Promise(function(resolve, reject) {
@@ -39,8 +39,8 @@ exports.addAdress = async function (DTO, userDTO) {
     `
 
     let values = [
-        userDTO.id, DTO.address, generateCurrentTime(),
-        DTO.address, generateCurrentTime()
+        userDTO.id, DTO.address,
+        DTO.address
     ]
 
     return new Promise(function(resolve, reject) {
@@ -66,8 +66,8 @@ exports.addProfilePicture = async function (DTO, userDTO) {
     `
 
     let values = [
-        userDTO.id, DTO.filename, generateCurrentTime(),
-        DTO.filename, generateCurrentTime()
+        userDTO.id, DTO.filename,
+        DTO.filename
     ];
     
     return new Promise(function(resolve, reject) {
