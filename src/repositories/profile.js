@@ -7,7 +7,7 @@ exports.addPhoneNumber = async function (DTO, userDTO) {
 
     let query = `
         INSERT INTO user_detail (user_id, phone_number)
-        VALUES (?, ?, ?)
+        VALUES (?, ?)
         ON DUPLICATE KEY UPDATE 
             phone_number = ?
     `
@@ -58,7 +58,7 @@ exports.addProfilePicture = async function (DTO, userDTO) {
             user_id, avatar
         )
         VALUES(
-            ?,?,?
+            ?,?
         )
         ON DUPLICATE KEY
         UPDATE
