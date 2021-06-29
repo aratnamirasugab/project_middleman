@@ -6,11 +6,10 @@ const {generateCurrentTime} = require('../helpers/time');
 exports.addPhoneNumber = async function (DTO, userDTO) {
 
     let query = `
-        INSERT INTO user_detail (user_id, phone_number, created_at)
+        INSERT INTO user_detail (user_id, phone_number)
         VALUES (?, ?, ?)
         ON DUPLICATE KEY UPDATE 
-            phone_number = ?,
-            updated_at = ?
+            phone_number = ?
     `
     
     let values = [
@@ -30,14 +29,13 @@ exports.addAdress = async function (DTO, userDTO) {
     
     let query = `
         INSERT INTO user_detail (
-            user_id, address, created_at
-        )
+            user_id, address
         VALUES (
-            ?,?,?
+            ?,?
         )
         ON DUPLICATE KEY 
         UPDATE
-            address = ?, updated_at = ?
+            address = ?
     `
 
     let values = [
@@ -57,14 +55,14 @@ exports.addProfilePicture = async function (DTO, userDTO) {
 
     let query = `
         INSERT INTO user_detail(
-            user_id, avatar, created_at
+            user_id, avatar
         )
         VALUES(
             ?,?,?
         )
         ON DUPLICATE KEY
         UPDATE
-            avatar = ?, updated_at = ?
+            avatar = ?
     `
 
     let values = [
