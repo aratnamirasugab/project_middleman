@@ -51,6 +51,7 @@ exports.addProfilePicture = async function (req, res) {
         upload = upload.single('avatar');
         upload(req, res, async function (err) {
             if (err) {
+                console.log(err);
                 return response({
                     code : 500,
                     message : err
@@ -64,6 +65,7 @@ exports.addProfilePicture = async function (req, res) {
             }, res);  
         })
     } catch (error) {
+        console.log(error)
         return response({
             code : 500,
             message : error

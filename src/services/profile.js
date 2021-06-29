@@ -9,12 +9,12 @@ exports.addPhoneNumber = async function (DTO, userDTO) {
     if (addPhoneNumberToDB.affectedRows === 2) {
         return {
             code : 200,
-            message : "Successfully updated address"
+            message : "Successfully updated phone number"
         }
     } else if (addPhoneNumberToDB.affectedRows === 1) {
         return {
             code : 200,
-            message : "Successfully added address"
+            message : "Successfully added phone number"
         }
     } else {
         return {

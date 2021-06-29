@@ -1,5 +1,4 @@
 const bcyrpt = require('bcrypt');
-const { func } = require('joi');
 const saltRounds = process.env.SALT_ROUNDS || 8;
 
 exports.hashPassword = async function (password) {

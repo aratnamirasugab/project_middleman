@@ -15,7 +15,7 @@ exports.auth = function (req, res, next) {
         }, res);
     }
 
-    jwt.verify(token, process.env.JWT_TOKEN_SECRET, (error, result) => {
+    jwt.verify(token, "MasukPakEko", (error, result) => {
         if (error) {
             return response({
                 code : 403,
