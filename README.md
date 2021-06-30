@@ -150,18 +150,20 @@ Response :
 
 ```json 
 {
-    "code" : "number",
-    "status" : "string",
-    "data" : {
-        "name" : "string",
-        "avatar" : "string",
-        "joined_on" : "string",
-        "email" : "string",
-        "is_admin" : "boolean",
-        "circle_info" : {
-           "cicle_name": "string",
-           "total_member" : "number",
-           "admin" : "boolean"
+    "code": 200,
+    "status": "OK",
+    "data": {
+        "user_data": {
+            "username": "bagus",
+            "avatar": null,
+            "registered_on": "2021-06-30T08:10:13.000Z",
+            "is_admin": 0,
+            "email": "bagus@gmail.com",
+            "circle_info": {
+                "cicle_name": "Circle owen lesil",
+                "total_member": 1,
+                "admin": 0
+            }
         }
     }
 }

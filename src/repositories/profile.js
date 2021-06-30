@@ -1,7 +1,6 @@
 "use strict";
 
 const db = require('../config/db_conn');
-const {generateCurrentTime} = require('../helpers/time');
 
 exports.addPhoneNumber = async function (DTO, userDTO) {
 
@@ -30,7 +29,7 @@ exports.addAdress = async function (DTO, userDTO) {
     let query = `
         INSERT INTO user_detail (
             user_id, address
-        VALUES (
+        ) VALUES (
             ?,?
         )
         ON DUPLICATE KEY 
@@ -69,40 +68,116 @@ exports.addProfilePicture = async function (DTO, userDTO) {
         userDTO.id, DTO.filename,
         DTO.filename
     ];
-    
+
     return new Promise(function(resolve, reject) {
         db.query(query, values, function(error, rows, fields) {
             if (error) reject(error)
-            resolve(rows);            
+            resolve(rows);
         })
     })
 }
 
 exports.getProfileInfo = async function (userDTO) {
 
-    let query = `
+    let result = {}
+
+    let query_profile = `
         SELECT
             u.id, u.name, u.email, u.is_admin,
-            u.username, u.created_at,
-            ud.address, ud.phone_number,
-            ud.avatar,
-            c.name AS circle_name
+            u.username, u.created_at as registered_on
         FROM
             user u
-            INNER JOIN user_detail ud ON u.id = ud.user_id
-            INNER JOIN circle_member cm ON cm.user_id = ?
-            INNER JOIN circle c ON cm.circle_id = c.id
         WHERE u.id = ?;
     `
 
-    let values = [
-        userDTO.id, userDTO.id
+    let query_profile_detail = `
+        SELECT
+            ud.address, ud.phone_number, ud.avatar
+
+        FROM
+            user_detail ud
+        WHERE 
+            ud.user_id = ?;
+    `
+
+    let query_circle_member = `
+        SELECT
+            cm.circle_id, cm.created_at as joined_on
+        FROM
+            circle_member cm
+        WHERE
+            cm.user_id = ?
+            AND
+            cm.deleted_at is null
+    `
+
+    let query_circle = `
+        SELECT
+            c.name as circle_name, c.admin_id
+        FROM
+            circle c
+        WHERE
+            c.id = ?
+            AND
+            c.deleted_at is null
+    `
+
+    let query_circle_total_member = `
+        SELECT COUNT(cm.user_id) as total_member
+        FROM
+            circle_member cm
+        WHERE
+            cm.circle_id = ?
+            AND
+            cm.deleted_at is null
+    `
+
+    let values_profile = [
+        userDTO.id
     ]
     
     return new Promise(function(resolve, reject) {
-        db.query(query, values, function(error, rows, fields) {
+        db.query(query_profile, values_profile, function(error, rows, fields) {
             if (error) reject(error)
-            resolve(rows);            
+            
+            Object.assign(result, rows[0])
+
+            let values_profile_detail = [
+                result.id
+            ]
+
+            db.query(query_profile_detail, values_profile_detail, function(error, rows, fields) {
+                if (error) reject(error)
+                Object.assign(result, rows[0])
+
+                let values_circle_member = [
+                    userDTO.id
+                ]
+                
+                db.query(query_circle_member, values_circle_member, function(error, rows, fields) {
+                    if (error) reject(error)
+                    Object.assign(result, rows[0])
+
+                    let values_circle = [
+                        result.circle_id
+                    ]
+                    
+                    db.query(query_circle, values_circle, function(error, rows, fields) {
+                        if (error) reject(error)
+                        Object.assign(result, rows[0])
+                        
+                        let values_circle_total_member = [
+                            result.circle_id
+                        ]
+
+                        db.query(query_circle_total_member, values_circle_total_member, function(error, rows, fields) {
+                            if (error) reject(error)
+                            Object.assign(result, rows[0])
+                            resolve(result)
+                        })
+                    })
+                })
+            })         
         })
     })
 }

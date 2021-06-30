@@ -50,14 +50,14 @@ exports.addProfilePicture = async function (DTO, userDTO) {
 
     let uploadAvatarToDB = await repository.addProfilePicture(DTO, userDTO);
 
-    if (uploadAvatarToDB.affectedRows === 2) {
+    if (uploadAvatarToDB.affectedRows === 1) {
         return {
             code : 200,
-            message : "Successfully updated avatar"
+            message : "Successfully added avatar"
         }
-    } else if (uploadAvatarToDB.affectedRows === 1) {
+    } else if (uploadAvatarToDB.affectedRows === 2) {
         return {
-            code : 200,
+            code : 201,
             message : "Successfully added avatar"
         }
     } else {
@@ -72,5 +72,21 @@ exports.getProfileInfo = async function (userDTO) {
 
     let resultFromDB = await repository.getProfileInfo(userDTO);
 
-    console.log(resultFromDB);
+    let user_data = {
+        "username" : resultFromDB.username,
+        "avatar" : resultFromDB.avatar,
+        "registered_on" : resultFromDB.registered_on,
+        "is_admin" : resultFromDB.is_admin,
+        "email" : resultFromDB.email,
+        "circle_info" : {
+           "cicle_name": resultFromDB.circle_name,
+           "total_member" : resultFromDB.total_member,
+           "admin" : resultFromDB.is_admin
+        }
+    }
+
+    return {
+        code : 200,
+        user_data : user_data
+    }
 }

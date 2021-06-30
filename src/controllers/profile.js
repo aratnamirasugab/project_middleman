@@ -2,7 +2,6 @@
 
 const {response} = require('../context/response');
 const service = require('../services/profile');
-let {upload} = require('../middleware/multer');
 
 exports.addPhoneNumber = async function (req, res) {
     
@@ -38,6 +37,7 @@ exports.addAddress = async function (req, res) {
             message : dataToResponse.message
         }, res);
     } catch (error) {
+        console.log(error)
         return response({
             code : 500,
             message : error
@@ -46,24 +46,14 @@ exports.addAddress = async function (req, res) {
 }
 
 exports.addProfilePicture = async function (req, res) {
-    
-    try {
-        upload = upload.single('avatar');
-        upload(req, res, async function (err) {
-            if (err) {
-                console.log(err);
-                return response({
-                    code : 500,
-                    message : err
-                }, res);
-            }
 
-            let rlt = await service.addProfilePicture(req.file, req.user);
-            return response({
-                code : rlt.code,
-                message : rlt.message
-            }, res);  
-        })
+    try {
+        let dataToResponse = await service.addProfilePicture(req.file, req.user);
+
+        return response({
+            code : dataToResponse.code,
+            message : dataToResponse.message
+        }, res);  
     } catch (error) {
         console.log(error)
         return response({
@@ -83,7 +73,7 @@ exports.getProfileInfo = async function (req, res) {
 
         return response({
             code : result.code,
-            message : result.message
+            user_data : result.user_data
         }, res);
         
     } catch (error) {

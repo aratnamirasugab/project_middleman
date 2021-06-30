@@ -19,14 +19,3 @@ const con = mysql.createConnection({
 });
 
 module.exports = con;
-
-// host : us-cdbr-east-03.cleardb.com
-// user: "be9afa0b8c3d9f",
-// password: "74b0db4e",
-// database: "heroku_227f99b4a734a11",
-
-// host: "localhost",
-// user: "root",
-// password: "",
-// database: "middleman",
-// multipleStatements : true
