@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "pm2 start index.js --exp-backoff-restart-delay=100 --name=middleman-api --watch",
+    "start": "pm2 start index.js --exp-backoff-restart-delay=100 --name=middleman-api",
     "dev": "nodemon index.js"
   },
   "author": "",
