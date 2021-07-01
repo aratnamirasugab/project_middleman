@@ -61,10 +61,54 @@ exports.deleteItem = async function (req, res) {
         }, res);
 
     } catch (error) {
-        console.log(error);
         return response({
             code : 500,
             message : error
         }, res)   
+    }
+}
+
+exports.getItemPicture = async function (req, res) {
+
+    const filename = req.params.name;
+    const path = "./uploads/item/";
+
+    try {
+        res.download(path + filename, (err) => {
+            if (err) {
+                return response({
+                    code : 500,
+                    message : "File cannot be downloaded " + err
+                }, res);
+            }
+        })        
+    } catch (error) {
+        return response({
+            code : 500,
+            message : error
+        }, res);
+    }
+}
+
+exports.updateItem = async function (req, res) {
+
+    let DTO = req.body;
+    DTO.id = req.params.id
+
+    try {
+
+        let result = await service.updateItem(DTO);
+
+        return response({
+            code : result.code,
+            message : result.message
+        }, res);
+        
+    } catch (error) {
+        console.log(error);
+        return response({
+            code : 500,
+            messsage : error
+        }, res);
     }
 }

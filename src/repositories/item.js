@@ -153,3 +153,31 @@ exports.getItemPictureAddress = async function (id) {
         })
     })
 }
+
+exports.updateItem = async function (DTO) {
+    
+    let query = `
+        UPDATE item
+        SET
+            name = ?,
+            description = ?,
+            quantity = ?,
+            price = ?,
+            updated_at = ?
+        WHERE 
+            id = ?
+    `
+
+    let values = [
+        DTO.name, DTO.description, DTO.quantity,
+        DTO.price, generateCurrentTime(), DTO.id
+    ]
+
+    return new Promise(function(resolve, reject) {
+        db.query(query, values, function (error, result, fields) {
+            if (error) reject(error);
+            resolve(result)
+        })
+    })
+
+}

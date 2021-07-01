@@ -65,3 +65,25 @@ exports.deleteItem = async function (paramDTO) {
     }
     
 }
+
+exports.updateItem = async function (DTO) {
+
+    let resultFromDB = await repository.updateItem(DTO);
+
+    if (resultFromDB.affectedRows === 1) {
+        return {
+            code : 201,
+            message : "New item successfully inserted"
+        }
+    } else if (resultFromDB.affectedRows === 2) {
+        return {
+            code : 200,
+            message : "New item successfully updated"
+        }
+    } else {
+        return {
+            code : 500,
+            message : "Failed to query on updateItem"
+        }
+    }
+}

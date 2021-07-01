@@ -4,7 +4,7 @@ const {auth} = require('./middleware/auth');
 const {healthcheck} = require('./controllers/healthcheck');
 const {register, login, deactived, changePassword} = require('../src/controllers/credentials');
 const {addPhoneNumber, addAddress, addProfilePicture, getProfileInfo, getProfileAvatar} = require('../src/controllers/profile');
-const {addItem, getAllItem, deleteItem} = require('../src/controllers/item');
+const {addItem, getAllItem, deleteItem, getItemPicture, updateItem} = require('../src/controllers/item');
 const {createCircle, editCircleInfo, updateCircleAvatar, inviteNewMember, getCircleInvitation, approveCircleInvitation, removeMemberAsAdmin, quitRequestFromCircle, getQuitRequestListAsAdmin, getMemberList, postBonusScheme, getBonusScheme} = require('../src/controllers/circle');
 let {upload} = require('./middleware/multer');
 
@@ -24,8 +24,9 @@ module.exports = function (app) {
 
     app.post('/api/item/create', auth, upload.single('item-picture'), addItem);
     app.get('/api/item/list', auth, getAllItem);
-    app.get('/api/item/download/picture/:name', auth, getProfileAvatar);
+    app.get('/api/item/download/picture/:name', auth, getItemPicture);
     app.delete('/api/item/delete', auth, deleteItem);
+    app.put('/api/item/edit/:id', auth, upload.single('item-picture'), updateItem);
 
     app.post('/api/circle/create', auth, upload.any(), createCircle);
     app.put('/api/circle/edit', auth, editCircleInfo);

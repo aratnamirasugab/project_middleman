@@ -195,6 +195,31 @@ Response :
 }
 ```
 
+## [GET] Get profile picture
+Request :
+- Method : GET
+- Endpoint : `/api/profile/download/avatar/:name`
+- Header :
+    - Authorization : "Bearer " + token
+    - Content-Type: application/json
+    - Accept: application/json
+
+Response :
+
+``Downloadable file```
+
+or
+
+```json 
+{
+    "code" : "500",
+    "status" : "string",
+    "data" : {
+        "message" : "string"
+    }
+}
+```
+
 
 ## [POST] Add Phone Number
 Request :
@@ -322,6 +347,31 @@ Response :
                 "item_picture": "http://localhost:3000/api/item/download/picture/34-item-2021-06-15-112457.jpg"
             }
         ]
+    }
+}
+```
+
+## [GET] Get item picture
+Request :
+- Method : GET
+- Endpoint : `/api/item/download/picture/:name`
+- Header :
+    - Authorization : "Bearer " + token
+    - Content-Type: application/json
+    - Accept: application/json
+
+Response :
+
+``Downloadable file```
+
+or
+
+```json 
+{
+    "code" : "500",
+    "status" : "string",
+    "data" : {
+        "message" : "string"
     }
 }
 ```
