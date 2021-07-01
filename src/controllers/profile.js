@@ -63,6 +63,28 @@ exports.addProfilePicture = async function (req, res) {
     }
 }
 
+exports.getProfileAvatar = async function (req, res) {
+
+    const filename = req.params.name;
+    const path = "./uploads/profile/";
+
+    try {
+        res.download(path + filename, (err) => {
+            if (err) {
+                return response({
+                    code : 500,
+                    message : "File cannot be downloaded " + err
+                }, res);
+            }
+        })        
+    } catch (error) {
+        return response({
+            code : 500,
+            message : error
+        }, res);
+    }
+}
+
 exports.getProfileInfo = async function (req, res) {
 
     let userDTO = req.user;

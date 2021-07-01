@@ -263,7 +263,7 @@ Request :
 {
     "name" : "string",
     "description" : "string",
-    "image" : "@/home/wayan/Downloads/569b49f35215b9d6206bfe4bbbffba56.jpeg(string but file location)",
+    "item-picture" : "@/home/wayan/Downloads/569b49f35215b9d6206bfe4bbbffba56.jpeg(string but file location)",
     "quantity" : "number",
     "price" : "number"
 }
@@ -292,22 +292,34 @@ Response :
 
 ```json 
 {
-    "code" : "number",
-    "status" : "string",
-    "data" : {
-        "message" : "string",
-        "list_item" : [
+    "code": 200,
+    "status": "OK",
+    "data": {
+        "message": "Successfully pull item list",
+        "list_item": [
             {
-                "name" : "string",
-                "stock" : "number",
-                "price" : "number",
-                "added_at" : "date"
+                "id": 3,
+                "name": "Remote AC",
+                "stock": 10,
+                "price": 30000,
+                "added_at": "2021-07-01T01:49:18.000Z",
+                "item_picture": "http://localhost:3000/api/item/download/picture/34-item-2021-06-15-112457.jpg"
             },
             {
-                "name" : "string",
-                "stock" : "number",
-                "price" : "number",
-                "added_at" : "date"
+                "id": 4,
+                "name": "Remote AC",
+                "stock": 10,
+                "price": 30000,
+                "added_at": "2021-07-01T01:49:48.000Z",
+                "item_picture": "http://localhost:3000/api/item/download/picture/34-item-2021-06-15-112457.jpg"
+            },
+            {
+                "id": 5,
+                "name": "Remote AC",
+                "stock": 10,
+                "price": 30000,
+                "added_at": "2021-07-01T01:52:02.000Z",
+                "item_picture": "http://localhost:3000/api/item/download/picture/34-item-2021-06-15-112457.jpg"
             }
         ]
     }
