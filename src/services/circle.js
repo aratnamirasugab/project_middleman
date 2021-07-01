@@ -1,6 +1,7 @@
 "use strict";
 
 const repository = require('../repositories/circle')
+const baseURL = process.env.URL || 'http://localhost:3000/api/profile/download/avatar';
 
 exports.createCircle = async function (DTO, userDTO) {
 
@@ -60,13 +61,13 @@ exports.updateCircleAvatar = async function (DTO, userDTO) {
 
 exports.inviteNewMember = async function (paramDTO, userDTO) {
 
-    // search user with given username, if not push error
+    // search user with given username, if not found push error
     // if found, check if user already on another circle, if yes push error
     // if no then push into invite table
     let searchUserWithGivenUsername = await repository.searchUserWithGivenUsername(paramDTO, userDTO)
     if (searchUserWithGivenUsername.length === 0) {
         return {
-            code : 200,
+            code : 404,
             message : "User with username " + paramDTO.username + " is not found"
         }
     }
@@ -74,7 +75,7 @@ exports.inviteNewMember = async function (paramDTO, userDTO) {
     let userAlreadyHasCircle = await repository.alreadyHasCircle(searchUserWithGivenUsername[0])
     if (userAlreadyHasCircle.length !== 0) {
         return {
-            code : 200,
+            code : 409,
             message : `User ${paramDTO.username} already on another circle`
         }
     }
@@ -272,12 +273,27 @@ exports.getQuitRequestListAsAdmin = async function (userDTO) {
 
 exports.getMemberList = async function (userDTO) {
     
-    let fetchMemberList = await repository.getMemberList(userDTO)
+    let hasCircle = await repository.alreadyHasCircle(userDTO);
+    if (hasCircle.length === 0) {
+        return {
+            code : 400,
+            message : "You're not belong to any group"
+        }
+    }
+    let users = await repository.getMemberList(userDTO)
+
+    for (let user of users) {
+        let avatar = await repository.getMemberAvatar(user.id)
+        if (avatar.length > 0) {
+            avatar = avatar[0].avatar
+            user["avatar"] = baseURL + "/" + avatar
+        }
+    }
     
     return {
         code : 200,
         message : "OK",
-        list_member : fetchMemberList
+        list_member : users
     }
 
 }
@@ -318,15 +334,22 @@ exports.getBonusScheme = async function (userDTO) {
    }
    
    let bonus = await repository.getBonusScheme(userDTO)
-   return {
-       code : 200,
-       message : "OK",
-       bonus_scheme : {
-           to_admin : bonus[0].to_admin,
-           to_member : bonus[0].to_member,
-           created_at : bonus[0].created_at,
-           updated_at : bonus[0].updated_at
+
+   if (bonus.length > 0) {
+       return {
+           code : 200,
+           message : "OK",
+           bonus_scheme : {
+               to_admin : bonus[0].to_admin,
+               to_member : bonus[0].to_member,
+               created_at : bonus[0].created_at,
+               updated_at : bonus[0].updated_at
+           }
        }
    }
-    
+
+   return {
+       code : 200,
+       message : "Not yet defined"
+   }
 }

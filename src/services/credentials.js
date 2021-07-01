@@ -16,6 +16,14 @@ exports.register = async function(DTO) {
         }
     }
 
+    let checkUserUsername = await repository.checkUserUsername(DTO.username);
+    if (checkUserUsername.length !== 0) {
+        return {
+            code : 400,
+            message : "Already registered"
+        }
+    }
+
     let dataToRegister = {
         email : DTO.email,
         password : await hashPassword(DTO.password),

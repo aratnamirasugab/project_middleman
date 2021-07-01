@@ -28,9 +28,9 @@ module.exports = function (app) {
     app.delete('/api/item/delete', auth, deleteItem);
     app.put('/api/item/edit/:id', auth, upload.single('item-picture'), updateItem);
 
-    app.post('/api/circle/create', auth, upload.any(), createCircle);
+    app.post('/api/circle/create', auth, upload.any('circle-avatar'), createCircle);
     app.put('/api/circle/edit', auth, editCircleInfo);
-    app.put('/api/circle/avatar/upload', auth, upload.single('circle_avatar'), updateCircleAvatar);
+    app.put('/api/circle/avatar/upload', auth, upload.single('circle-avatar'), updateCircleAvatar);
     app.post('/api/circle/invite', auth, inviteNewMember);
     app.get('/api/circle/invitation', auth, getCircleInvitation);
     app.put('/api/circle/invitation/approve', auth, approveCircleInvitation);

@@ -567,11 +567,37 @@ exports.findQuitRequestPerCircle = async function (userDTO) {
             INNER JOIN user u ON u.id = cqr.user_id
         WHERE
             c.admin_id = ?
+            AND
+            cqr.deleted_at is null
         ORDER BY(created_at) DESC;
     `
 
     let values = [
         userDTO.id
+    ]
+
+    return new Promise(function(resolve, reject) {
+        db.query(query, values, function (error, result, fields) {
+            if (error) reject(error)
+            resolve(result)
+        })
+    })
+
+}
+
+exports.getMemberAvatar = async function (id) {
+    
+    let query = `
+        select
+            avatar
+        from
+            user_detail ud
+        where
+            ud.user_id = ?
+    `
+
+    let values = [
+        id
     ]
 
     return new Promise(function(resolve, reject) {
@@ -611,18 +637,19 @@ exports.getMemberList = async function (userDTO) {
 
             let query_to_find_members_username = `
                 SELECT 
-                    u.id, u.username, ud.avatar, cm.created_at as joined_at
+                    u.id, u.username, cm.created_at as joined_at
 
                 FROM
                     user u
                     INNER JOIN circle_member cm ON cm.user_id = u.id
-                    INNER JOIN user_detail ud ON u.id = ud.user_id
 
                 WHERE
                     cm.circle_id = ?
                     AND
                     cm.deleted_at IS NULL;
             `
+            
+            console.log(result)
 
             let values_to_find_members_username = [
                 result[0].circle_id

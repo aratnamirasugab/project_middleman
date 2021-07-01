@@ -210,6 +210,7 @@ exports.getMemberList = async function (req, res) {
             list_member : result.list_member
         }, res);
     } catch (error) {
+        console.log(error)
         return response({
             code : 500,
             message : error
@@ -254,6 +255,7 @@ exports.getBonusScheme = async function (req, res) {
             bonus_scheme : result.bonus_scheme
         }, res);
     } catch (error) {
+        console.log(error)
         return response({
             code : 500,
             message : error

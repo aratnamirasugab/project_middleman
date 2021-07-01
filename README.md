@@ -450,7 +450,7 @@ Request :
 {
     "name" : "string",
     "description" : "string",
-    "circle_avatar" : "filelocation"
+    "circle-avatar" : "filelocation"
 }
 ```
 
@@ -504,7 +504,7 @@ Request :
     
 ```json 
 {
-    "circle_avatar" : "filelocation"
+    "circle-avatar" : "filelocation"
 }
 ```
 

@@ -31,6 +31,18 @@ exports.checkUserByEmail = async function (DTO) {
     });
 }
 
+exports.checkUserUsername = async function (DTO) {
+
+    let query = "SELECT * FROM user WHERE username = ?";
+
+    return new Promise(function(resolve, reject) {
+        db.query(query, DTO, function(error, rows, fields){
+            if (error) reject(error);
+            resolve(rows);
+        });
+    });
+}
+
 exports.deactived = async function (userDTO) {
 
     let query = `
