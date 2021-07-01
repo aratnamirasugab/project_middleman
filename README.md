@@ -379,18 +379,18 @@ or
 ## [PUT] Update Item
 Request :
 - Method : PUT
-- Endpoint : `/api/item?id={number}/edit'
+- Endpoint : `/api/item/edit/:id'
 - Header :
     - Authorization : "Bearer " + token
-    - Content-Type: application/json
-    - Accept: application/json
-- Body :
+    - Content-Type: form-data
+- Form-Data :
     
 ```json 
 {
+    "id" : "number",
     "name" : "string",
     "description" : "string",
-    "image" : "string",
+    "item-picture" : "string to file location",
     "quantity" : "number",
     "price" : "number"
 }
