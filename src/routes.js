@@ -6,6 +6,7 @@ const {register, login, deactived, changePassword} = require('../src/controllers
 const {addPhoneNumber, addAddress, addProfilePicture, getProfileInfo, getProfileAvatar} = require('../src/controllers/profile');
 const {addItem, getAllItem, deleteItem, getItemPicture, updateItem} = require('../src/controllers/item');
 const {createCircle, editCircleInfo, updateCircleAvatar, inviteNewMember, getCircleInvitation, approveCircleInvitation, removeMemberAsAdmin, quitRequestFromCircle, getQuitRequestListAsAdmin, getMemberList, postBonusScheme, getBonusScheme, getCircleInfo, getCircleAvatar} = require('../src/controllers/circle');
+const {getShippingLocation, shippingFee} = require('../src/controllers/shipping');
 let {upload} = require('./middleware/multer');
 
 module.exports = function (app) {
@@ -43,6 +44,8 @@ module.exports = function (app) {
     app.get('/api/circle', auth, getCircleInfo);
     app.get('/api/circle/download/avatar/:name', auth, getCircleAvatar);
 
+    app.get('/api/shipping/address', auth, getShippingLocation);
+    app.get('/api/shipping/cost', auth, shippingFee);
 
 
 

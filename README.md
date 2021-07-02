@@ -501,6 +501,31 @@ Response :
 }
 ```
 
+## [GET] Get Circle's avatar
+Request :
+- Method : GET
+- Endpoint : `/api/circle/download/avatar/:name`
+- Header :
+    - Authorization : "Bearer " + token
+    - Content-Type: application/json
+    - Accept: application/json
+
+Response :
+
+``Downloadable file```
+
+or
+
+```json 
+{
+    "code" : "500",
+    "status" : "string",
+    "data" : {
+        "message" : "string"
+    }
+}
+```
+
 ## [PUT] Edit Circle Info
 Request :
 - Method : PUT
