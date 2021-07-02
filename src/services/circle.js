@@ -148,7 +148,7 @@ exports.approveCircleInvitation = async function (paramDTO, userDTO) {
     }
 
     let pushToCircleMember = await repository.acceptCircleInvitation(paramDTO.circle_id, userDTO)
-    if (pushToCircleMember.changedRows !== 1) {
+    if (pushToCircleMember.affectedRows !== 1) {
         return {
             code : 500,
             message : "Error when accepting circle invitation"
@@ -379,5 +379,43 @@ exports.getCircleInfo = async function (userDTO) {
         code : 200,
         circle_data
     }
+
+}
+
+exports.getItemOnSale = async function (userDTO) {
+
+    let hasCircle = await repository.alreadyHasCircle(userDTO)
+    if (hasCircle.length === 0) {
+        return {
+            code : 400,
+            message : "You're not belong to any group yet"
+        }
+    }
+
+    let circle = await repository.getCircleInfo(userDTO);
+    if (circle.length === 0) {
+        return {
+            code : 500,
+            message : "Error when executing getItemOnSale route (1)"
+        }
+    }
+
+    let members = await repository.getMemberList(userDTO)
+    for (let member of members) {
+        let items = await repository.getItemPerMember(member)
+        
+        let temp = [];
+        for (let item of items) {
+            temp.push(item)
+        }
+
+        member["items"] = temp
+    }
+
+    return {
+        code : 200,
+        members
+    }
+    
 
 }

@@ -829,3 +829,26 @@ exports.getCircleInfo = async function (userDTO) {
         })
     })
 }   
+
+exports.getItemPerMember = async function (userDTO) {
+    
+    let query = `
+        SELECT *
+        FROM item i
+        WHERE
+            i.user_id = ?
+        ORDER BY id DESC
+        LIMIT 3
+    `
+
+    let values = [
+        userDTO.id
+    ]
+
+    return new Promise(function(resolve, reject) {
+        db.query(query, values, function (error, result, fields) {
+            if (error) reject(error);
+            resolve(result)
+        })
+    })
+}

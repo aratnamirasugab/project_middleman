@@ -554,6 +554,128 @@ Response :
 }
 ```
 
+## [GET] Get members item(s)
+Request :
+- Method : GET
+- Endpoint : `/api/circle/onsale`
+- Header :
+    - Authorization : "Bearer " + token
+    - Content-Type: application/json
+    - Accept: application/json
+
+Response :
+
+```json 
+{
+    "code": 200,
+    "status": "OK",
+    "data": {
+        "items_data": [
+            {
+                "id": 35,
+                "username": "user1",
+                "joined_at": "2021-07-01T08:45:08.000Z",
+                "items": [
+                    {
+                        "id": 11,
+                        "name": "AAAAAAAAAAAAA",
+                        "description": "Remote AC adalah blablablabla",
+                        "quantity": 10,
+                        "price": 30000,
+                        "created_at": "2021-07-01T08:35:28.000Z",
+                        "updated_at": null,
+                        "deleted_at": null,
+                        "user_id": 35
+                    },
+                    {
+                        "id": 10,
+                        "name": "cinduncjdncjdn",
+                        "description": "Remote AC adalah blablablabla",
+                        "quantity": 10,
+                        "price": 30000,
+                        "created_at": "2021-07-01T08:35:23.000Z",
+                        "updated_at": null,
+                        "deleted_at": null,
+                        "user_id": 35
+                    },
+                    {
+                        "id": 9,
+                        "name": "niwadiowajdoiawj",
+                        "description": "Remote AC adalah blablablabla",
+                        "quantity": 10,
+                        "price": 30000,
+                        "created_at": "2021-07-01T08:35:19.000Z",
+                        "updated_at": null,
+                        "deleted_at": null,
+                        "user_id": 35
+                    }
+                ]
+            },
+            {
+                "id": 36,
+                "username": "user2",
+                "joined_at": "2021-07-02T07:41:55.000Z",
+                "items": [
+                    {
+                        "id": 13,
+                        "name": "barang user 2 versi 2",
+                        "description": "barang user 2",
+                        "quantity": 10,
+                        "price": 30000,
+                        "created_at": "2021-07-02T07:38:53.000Z",
+                        "updated_at": null,
+                        "deleted_at": null,
+                        "user_id": 36
+                    },
+                    {
+                        "id": 12,
+                        "name": "barang user 2",
+                        "description": "barang user 2",
+                        "quantity": 10,
+                        "price": 30000,
+                        "created_at": "2021-07-02T07:38:45.000Z",
+                        "updated_at": null,
+                        "deleted_at": null,
+                        "user_id": 36
+                    }
+                ]
+            },
+            {
+                "id": 37,
+                "username": "user3",
+                "joined_at": "2021-07-02T07:44:50.000Z",
+                "items": [
+                    {
+                        "id": 15,
+                        "name": "barang user 3 versi 100",
+                        "description": "barang user 3",
+                        "quantity": 10,
+                        "price": 30000,
+                        "created_at": "2021-07-02T07:39:33.000Z",
+                        "updated_at": null,
+                        "deleted_at": null,
+                        "user_id": 37
+                    },
+                    {
+                        "id": 14,
+                        "name": "barang user 3 ",
+                        "description": "barang user 3",
+                        "quantity": 10,
+                        "price": 30000,
+                        "created_at": "2021-07-02T07:39:26.000Z",
+                        "updated_at": null,
+                        "deleted_at": null,
+                        "user_id": 37
+                    }
+                ]
+            }
+        ]
+    }
+}
+```
+
+
+
 ## [PUT] Update Circle Avatar
 Request :
 - Method : POST

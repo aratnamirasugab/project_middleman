@@ -305,3 +305,27 @@ exports.getCircleAvatar = async function (req, res) {
         }, res);
     }
 }
+
+exports.getItemOnSale = async function (req, res) {
+    
+    let userDTO = req.user;
+    
+    
+    try {
+        
+        let result = await service.getItemOnSale(userDTO);
+
+        return response({
+            code : result.code,
+            items_data : result.members
+        }, res);
+    } catch (error) {
+        console.log(error)
+        return response({
+            code : 500,
+            message : error
+        }, res);
+    }
+
+
+}
