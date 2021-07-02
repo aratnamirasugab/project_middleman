@@ -47,7 +47,7 @@ module.exports = function (app) {
     app.get('/api/shipping/address', auth, getShippingLocation);
     app.get('/api/shipping/cost', auth, shippingFee);
 
-
+    
 
     
 };
