@@ -466,6 +466,41 @@ Response :
 }
 ```
 
+## [GET] Get Circle's Info
+Request :
+- Method : GET
+- Endpoint : `/api/circle`
+- Header :
+    - Authorization : "Bearer " + token
+    - Content-Type: application/json
+    - Accept: application/json
+
+Response :
+
+```json 
+{
+    "code": 200,
+    "status": "OK",
+    "data": {
+        "circle_data": {
+            "circle": {
+                "id": 11,
+                "name": "test circle 1",
+                "description": "hasil edit",
+                "avatar": "http://localhost:3000/api/circle/download/avatar/35-circle-avatar-5dbfff829ebe6.jpg",
+                "founded_at": "2021-07-01T08:45:08.000Z"
+            },
+            "admin": {
+                "id": 35,
+                "name": null,
+                "username": "user1",
+                "email": "user1@gmail.com"
+            }
+        }
+    }
+}
+```
+
 ## [PUT] Edit Circle Info
 Request :
 - Method : PUT

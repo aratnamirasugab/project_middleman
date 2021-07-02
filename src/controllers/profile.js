@@ -37,7 +37,6 @@ exports.addAddress = async function (req, res) {
             message : dataToResponse.message
         }, res);
     } catch (error) {
-        console.log(error)
         return response({
             code : 500,
             message : error
@@ -55,7 +54,6 @@ exports.addProfilePicture = async function (req, res) {
             message : dataToResponse.message
         }, res);  
     } catch (error) {
-        console.log(error)
         return response({
             code : 500,
             message : error
@@ -99,7 +97,6 @@ exports.getProfileInfo = async function (req, res) {
         }, res);
         
     } catch (error) {
-        console.log(error);
         return response({
             code : 500,
             message : error

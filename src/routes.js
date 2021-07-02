@@ -5,7 +5,7 @@ const {healthcheck} = require('./controllers/healthcheck');
 const {register, login, deactived, changePassword} = require('../src/controllers/credentials');
 const {addPhoneNumber, addAddress, addProfilePicture, getProfileInfo, getProfileAvatar} = require('../src/controllers/profile');
 const {addItem, getAllItem, deleteItem, getItemPicture, updateItem} = require('../src/controllers/item');
-const {createCircle, editCircleInfo, updateCircleAvatar, inviteNewMember, getCircleInvitation, approveCircleInvitation, removeMemberAsAdmin, quitRequestFromCircle, getQuitRequestListAsAdmin, getMemberList, postBonusScheme, getBonusScheme} = require('../src/controllers/circle');
+const {createCircle, editCircleInfo, updateCircleAvatar, inviteNewMember, getCircleInvitation, approveCircleInvitation, removeMemberAsAdmin, quitRequestFromCircle, getQuitRequestListAsAdmin, getMemberList, postBonusScheme, getBonusScheme, getCircleInfo, getCircleAvatar} = require('../src/controllers/circle');
 let {upload} = require('./middleware/multer');
 
 module.exports = function (app) {
@@ -40,6 +40,11 @@ module.exports = function (app) {
     app.get('/api/circle/member_list', auth, getMemberList);
     app.post('/api/circle/bonus/edit', auth, postBonusScheme);
     app.get('/api/circle/bonus', auth, getBonusScheme);
+    app.get('/api/circle', auth, getCircleInfo);
+    app.get('/api/circle/download/avatar/:name', auth, getCircleAvatar);
+
+
+
 
     
 };

@@ -2,6 +2,7 @@
 
 const repository = require('../repositories/circle')
 const baseURL = process.env.URL || 'http://localhost:3000/api/profile/download/avatar';
+const baseURLCircle = process.env.URL || 'http://localhost:3000/api/circle/download/avatar';
 
 exports.createCircle = async function (DTO, userDTO) {
 
@@ -352,4 +353,31 @@ exports.getBonusScheme = async function (userDTO) {
        code : 200,
        message : "Not yet defined"
    }
+}
+
+exports.getCircleInfo = async function (userDTO) {
+    
+    let circleInfo = await repository.getCircleInfo(userDTO)
+
+    let circle_data = {
+        "circle" : {
+            "id" : circleInfo.circle_id,
+            "name" : circleInfo.circle_name,
+            "description" : circleInfo.circle_description,
+            "avatar" : baseURLCircle + "/" + circleInfo.circle_avatar,
+            "founded_at" : circleInfo.created_at
+        },
+        "admin" : {
+            "id": circleInfo.admin_id,
+            "name": circleInfo.admin_name,
+            "username": circleInfo.admin_username,
+            "email": circleInfo.admin_email
+        }
+    }
+    
+    return {
+        code : 200,
+        circle_data
+    }
+
 }

@@ -648,8 +648,6 @@ exports.getMemberList = async function (userDTO) {
                     AND
                     cm.deleted_at IS NULL;
             `
-            
-            console.log(result)
 
             let values_to_find_members_username = [
                 result[0].circle_id
@@ -755,3 +753,79 @@ exports.getBonusScheme = async function (userDTO) {
     })
     
 }
+
+exports.getCircleInfo = async function (userDTO) {
+    
+    let result = {}
+
+    let query_circle_member = `
+        SELECT circle_id
+        FROM
+            circle_member
+        WHERE
+            user_id = ?
+            AND
+            deleted_at IS NULL
+        LIMIT 1
+    `
+    
+    let values_circle_member = [
+        userDTO.id
+    ]
+
+    return new Promise(function (resolve, reject) {
+        db.query(query_circle_member, values_circle_member, function (err, rows, fields) {
+            if (err) reject(err)
+
+            Object.assign(result, rows[0])
+            
+            let query_circle = `
+                SELECT 
+                    name as circle_name, description as circle_description, circle_avatar, admin_id,
+                    created_at
+                FROM
+                    circle
+                WHERE
+                    id = ?
+                    and
+                    deleted_at is null
+                LIMIT 1
+            `
+
+            let values_query_circle = [
+                rows[0].circle_id
+            ]
+
+            db.query(query_circle, values_query_circle, function (err, rows, fields) {
+                if (err) reject(err)
+
+                Object.assign(result, rows[0])
+                
+                let query_admin_info = `
+                    SELECT
+                        name as admin_name, username as admin_username, email as admin_email
+                    FROM
+                        user
+                    WHERE
+                        id = ?
+                        and
+                        deleted_at is null
+                    LIMIT 1
+                `
+
+                let values_query_admin_info = [
+                    rows[0].admin_id
+                ]
+
+                db.query(query_admin_info, values_query_admin_info, function (err, rows, fields) {
+                    if (err) reject(err)
+                    
+                    Object.assign(result, rows[0])
+
+                    resolve(result)
+        
+                })
+            })
+        })
+    })
+}   

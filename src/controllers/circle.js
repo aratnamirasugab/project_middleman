@@ -210,7 +210,6 @@ exports.getMemberList = async function (req, res) {
             list_member : result.list_member
         }, res);
     } catch (error) {
-        console.log(error)
         return response({
             code : 500,
             message : error
@@ -255,11 +254,54 @@ exports.getBonusScheme = async function (req, res) {
             bonus_scheme : result.bonus_scheme
         }, res);
     } catch (error) {
-        console.log(error)
         return response({
             code : 500,
             message : error
         }, res);
     }
 
+}
+
+exports.getCircleInfo = async function (req, res) {
+
+    let userDTO = req.user;
+
+    try {
+
+        let result = await service.getCircleInfo(userDTO)
+
+        return response({
+            code : result.code,
+            circle_data : result.circle_data
+        }, res);
+    } catch (error) {
+        console.log(error)
+        return response({
+            code : 500,
+            message : error
+        }, res);
+    }
+    
+}
+
+exports.getCircleAvatar = async function (req, res) {
+
+    const filename = req.params.name;
+    const path = "./uploads/circle/";
+
+    try {
+        res.download(path + filename, (err) => {
+            if (err) {
+                return response({
+                    code : 500,
+                    message : "File cannot be downloaded " + err
+                }, res);
+            }
+        })        
+    } catch (error) {
+        return response({
+            code : 500,
+            message : error
+        }, res);
+    }
 }
