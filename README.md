@@ -1170,44 +1170,45 @@ Response :
 
 ```json 
 {
-    "code" : "number",
-    "status" : "string",
-    "data" : {
-        "message" : "string",
-        "orders" : [
+    "code": 200,
+    "status": "OK",
+    "data": {
+        "orders": [
             {
-                "id" : "number",
-                "buyer_id" : "number",
-                "item_list" : [
+                "id": 10,
+                "buyer_id": 37,
+                "seller_id": 36,
+                "item_list": [
                     {
-                        "item_id" : "number",
-                        "item_name" : "string",
-                        "price" : "number",
-                        "quantity" : "number"
+                        "item_id": 12,
+                        "item_name": "barang user 2",
+                        "price": 30000,
+                        "quantity": 2
                     },
                     {
-                        "item_id" : "number",
-                        "item_name" : "string",
-                        "price" : "number",
-                        "quantity" : "number"
+                        "item_id": 13,
+                        "item_name": "barang user 2 versi 2",
+                        "price": 30000,
+                        "quantity": 2
                     }
                 ]
             },
             {
-                "id" : "number",
-                "buyer_id" : "number",
-                "item_list" : [
+                "id": 11,
+                "buyer_id": 37,
+                "seller_id": 36,
+                "item_list": [
                     {
-                        "item_id" : "number",
-                        "item_name" : "string",
-                        "price" : "number",
-                        "quantity" : "number"
+                        "item_id": 12,
+                        "item_name": "barang user 2",
+                        "price": 30000,
+                        "quantity": 1
                     },
                     {
-                        "item_id" : "number",
-                        "item_name" : "string",
-                        "price" : "number",
-                        "quantity" : "number"
+                        "item_id": 13,
+                        "item_name": "barang user 2 versi 2",
+                        "price": 30000,
+                        "quantity": 1
                     }
                 ]
             }
