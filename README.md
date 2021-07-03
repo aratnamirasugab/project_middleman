@@ -1258,5 +1258,3 @@ Response :
     }
 }
 ```
-
-# --- Bank Section ---

@@ -135,10 +135,71 @@ exports.getOrdersAsAdmin = async function(userDTO) {
 
         order["item_list"] = temp
     }
+
+
+    if (list_order.length === 0) {
+        return {
+            code : 200  ,
+            message : "Oops, order(s) not yet approved by seller",
+            orders : []
+        }
+    }
     
     return {
         code : 200,
-        list_order
+        message : "Successfully fetch order(s) data",
+        orders : list_order
+    }
+    
+}
+
+exports.getOrdersAsSeller = async function(userDTO) {
+
+    let hasCircle = await repositoryCircle.findUserHasCircle(userDTO);
+    if (hasCircle.length === 0) {
+        return {
+            code : 400,
+            message : "You're not belong to any group"
+        }
+    }
+
+    let {circle_id} = await repositoryCircle.getCircleId(userDTO);
+    let list_order = await repositoryOrder.getOrdersAsSeller(circle_id);
+    
+    for (let order of list_order) {
+        let dataOrder = await repositoryOrder.getOrderDetail(order["id"]);
+       
+        let temp = []
+        for (let item of dataOrder) {
+            
+            let tempItem = {}
+            tempItem.item_id = item['item_id'];
+            
+            let itemNameAndPrice = await repositoryItem.getItemInfo(tempItem);
+
+            temp.push({
+                "item_id" : item["item_id"],
+                "item_name" : itemNameAndPrice["name"],
+                "price" : itemNameAndPrice["price"],
+                "quantity" : item["quantity"]
+            })
+        }
+
+        order["item_list"] = temp
+    }
+
+    if (list_order.length === 0) {
+        return {
+            code : 200  ,
+            message : "Oops, no order from buyer yet",
+            orders : []
+        }
+    }
+    
+    return {
+        code : 200,
+        message : "Successfully fetch order(s) data",
+        orders : list_order
     }
     
 }

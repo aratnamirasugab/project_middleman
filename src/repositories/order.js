@@ -80,7 +80,7 @@ exports.getOrdersAsAdmin = async function (circle_id) {
         WHERE
             circle_id = ?
             AND
-            approved_by_admin IS NULL
+            approved_by_seller = 1
             AND
             deleted_at IS NULL
     `
@@ -108,6 +108,31 @@ exports.getOrderDetail = async function (order_id) {
 
     let values = [
         order_id
+    ]
+
+    return new Promise(function(resolve, reject) {
+        db.query(query, values, function (error, result, fields) {
+            if (error) reject(error);
+            resolve(result)
+        })
+    })
+
+}
+
+exports.getOrdersAsSeller = async function (circle_id) {
+    
+    let query = `
+        SELECT id, buyer_id, seller_id FROM middleman.order
+        WHERE
+            circle_id = ?
+            AND
+            approved_by_seller IS NULL
+            AND
+            deleted_at IS NULL
+    `
+
+    let values = [
+        circle_id
     ]
 
     return new Promise(function(resolve, reject) {

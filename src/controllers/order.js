@@ -34,9 +34,31 @@ exports.getOrdersAsAdmin = async function(req, res) {
 
         return response({
             code : result.code,
-            orders : result.list_order
+            message : result.message,
+            orders : result.orders
         }, res);
     } catch (error) {
+        return response({
+            code : 500,
+            message : error
+        }, res);
+    }
+}
+
+exports.getOrdersAsSeller = async function(req, res) {
+
+    const userDTO = req.user;
+
+    try {
+        let result = await service.getOrdersAsSeller(userDTO);
+
+        return response({
+            code : result.code,
+            message : result.message,
+            orders : result.orders
+        }, res);
+    } catch (error) {
+        console.log(error)
         return response({
             code : 500,
             message : error
