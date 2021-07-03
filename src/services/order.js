@@ -71,10 +71,12 @@ exports.orderItem = async function(DTO, userDTO) {
         'courier' : DTO.courier.toString().toLowerCase()
     }
 
+    let {circle_id} = await repositoryCircle.getCircleId(userDTO);
     let shipping_fee = await serviceShipping.shippingFee(shippingDTO);
     let filteredShippingFee = shipping_fee.message[0].costs[1].cost[0].value
     DTO["shipping_price"] = filteredShippingFee * total_weight;
     DTO["total_price"] = total_price + DTO["shipping_price"];
+    DTO["circle_id"] = circle_id
     
     let inputToDB = await repositoryOrder.orderItem(DTO, userDTO);
     if (inputToDB.affectedRows === 0) {
@@ -89,4 +91,54 @@ exports.orderItem = async function(DTO, userDTO) {
         message : "Order successfully placed"
     }
 
+}
+
+exports.getOrdersAsAdmin = async function(userDTO) {
+
+    let hasCircle = await repositoryCircle.findUserHasCircle(userDTO);
+    if (hasCircle.length === 0) {
+        return {
+            code : 400,
+            message : "You're not belong to any group"
+        }
+    }
+
+    let userAdmin = await repositoryCircle.userAdmin(userDTO)
+    if (!userAdmin.is_admin) {
+        return {
+            code : 403,
+            message : "You're not admin"
+        }
+    } 
+
+    let {circle_id} = await repositoryCircle.getCircleId(userDTO);
+    let list_order = await repositoryOrder.getOrdersAsAdmin(circle_id);
+    
+    for (let order of list_order) {
+        let dataOrder = await repositoryOrder.getOrderDetail(order["id"]);
+       
+        let temp = []
+        for (let item of dataOrder) {
+            
+            let tempItem = {}
+            tempItem.item_id = item['item_id'];
+            
+            let itemNameAndPrice = await repositoryItem.getItemInfo(tempItem);
+
+            temp.push({
+                "item_id" : item["item_id"],
+                "item_name" : itemNameAndPrice["name"],
+                "price" : itemNameAndPrice["price"],
+                "quantity" : item["quantity"]
+            })
+        }
+
+        order["item_list"] = temp
+    }
+    
+    return {
+        code : 200,
+        list_order
+    }
+    
 }

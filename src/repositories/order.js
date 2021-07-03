@@ -9,17 +9,17 @@ exports.orderItem = async function(DTO, userDTO) {
         INSERT INTO
         middleman.order
         (
-            buyer_id, seller_id, shipping_address, 
-            shipping_price, total_price, created_at
+            buyer_id, seller_id, circle_id, shipping_address, 
+            shipping_price, total_price, created_at 
         )
         VALUES(
-            ?, ?, ?,
+            ?, ?, ?, ?,
             ?, ?, ?
         )
     `
 
     let values_order = [
-        userDTO.id, DTO.seller_id, DTO.shipping_address,
+        userDTO.id, DTO.seller_id, DTO.circle_id, DTO.shipping_address,
         DTO.shipping_price, DTO.total_price, generateCurrentTime()
     ];
 
@@ -71,4 +71,50 @@ exports.orderItem = async function(DTO, userDTO) {
             })
         })
     })
+}
+
+exports.getOrdersAsAdmin = async function (circle_id) {
+    
+    let query = `
+        SELECT id, buyer_id, seller_id FROM middleman.order
+        WHERE
+            circle_id = ?
+            AND
+            approved_by_admin IS NULL
+            AND
+            deleted_at IS NULL
+    `
+
+    let values = [
+        circle_id
+    ]
+
+    return new Promise(function(resolve, reject) {
+        db.query(query, values, function (error, result, fields) {
+            if (error) reject(error);
+            resolve(result)
+        })
+    })
+
+}
+
+exports.getOrderDetail = async function (order_id) {
+    
+    let query = `
+        SELECT * FROM middleman.order_list
+        WHERE
+            order_id = ?
+    `
+
+    let values = [
+        order_id
+    ]
+
+    return new Promise(function(resolve, reject) {
+        db.query(query, values, function (error, result, fields) {
+            if (error) reject(error);
+            resolve(result)
+        })
+    })
+
 }

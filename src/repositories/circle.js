@@ -878,3 +878,29 @@ exports.getShippingCodeMember = async function (user_id) {
     })
 
 }
+
+exports.getCircleId = async function (userDTO) {
+    
+    let query = `
+        SELECT
+            circle_id
+        FROM
+            circle_member
+        WHERE
+            user_id = ?
+            AND
+            deleted_at IS NULL
+    `
+
+    let values = [
+        userDTO.id
+    ]
+
+    return new Promise(function(resolve, reject) {
+        db.query(query, values, function (error, result, fields) {
+            if (error) reject(error);
+            resolve(result[0])
+        })
+    })
+
+}

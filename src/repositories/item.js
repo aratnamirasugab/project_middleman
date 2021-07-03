@@ -183,7 +183,7 @@ exports.updateItem = async function (DTO) {
 }
 
 exports.getItemInfo = async function (DTO) {
-    
+        
     let query = `
         SELECT *
         FROM
