@@ -852,3 +852,29 @@ exports.getItemPerMember = async function (userDTO) {
         })
     })
 }
+
+exports.getShippingCodeMember = async function (user_id) {
+    
+    let query = `
+        SELECT 
+            shipping_city_code 
+        FROM 
+            circle_member
+        WHERE
+            user_id = ?
+            AND
+            deleted_at IS NULL
+    `
+
+    let values = [
+        user_id
+    ]
+
+    return new Promise(function(resolve, reject) {
+        db.query(query, values, function (error, result, fields) {
+            if (error) reject(error);
+            resolve(result[0].shipping_city_code)
+        })
+    })
+
+}

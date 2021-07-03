@@ -181,3 +181,29 @@ exports.updateItem = async function (DTO) {
     })
 
 }
+
+exports.getItemInfo = async function (DTO) {
+    
+    let query = `
+        SELECT *
+        FROM
+            item
+        WHERE
+            id = ?
+            AND
+            deleted_at IS NULL
+        LIMIT 1
+    `
+
+    let values = [
+        DTO.item_id
+    ]
+
+    return new Promise(function(resolve, reject) {
+        db.query(query, values, function (error, result, fields) {
+            if (error) reject(error);
+            resolve(result[0])
+        })
+    })
+
+}

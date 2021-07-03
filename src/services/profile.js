@@ -1,7 +1,7 @@
 "use strict";
 
 const repository = require('../repositories/profile');
-const baseURL = process.env.URL || 'http://localhost:3000/api/profile/download/avatar';
+const baseURL = process.env.URL + '/api/profile/download/avatar' || 'http://localhost:3000/api/profile/download/avatar';
 
 exports.addPhoneNumber = async function (DTO, userDTO) {
 

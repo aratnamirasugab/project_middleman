@@ -1,7 +1,7 @@
 "use strict"
 
 const repository = require('../repositories/item');
-const baseURL = process.env.URL || 'http://localhost:3000/api/item/download/picture';
+const baseURL = process.env.URL + '/api/item/download/picture' || 'http://localhost:3000/api/item/download/picture';
 
 
 exports.addItem = async function (DTO, userDTO) {

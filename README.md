@@ -1065,27 +1065,34 @@ Request :
     
 ```json 
 {
-    "buyer_id" : "number",
-    "seller_id" : "number",
-    "shipping_address" : "text",
+    "seller_id" : 36,
+    "shipping_address" : "Jalan Sungai Raya Dalam Komplek Mitra Indah Utama 6 Nomor A20 Pontianak, Kalimantan Barat",
+    "courier" : "JNE",
     "item_list" : [
         {
-            "item_id" : "number",
-            "notes" : "text",
-            "price" : "number",
-            "quantity" : "number",
-            "weight" : "number"
+            "item_id" : 12,
+            "notes" : "Pakai Tas warna pink ya",
+            "quantity" : 2
         },
         {
-            "item_id" : "number",
-            "notes" : "text",
-            "price" : "number",
-            "quantity" : "number",
-            "weight" : "number"
+            "item_id" : 13,
+            "notes" : "Pakai Tas warna pink ya",
+            "quantity" : 2
         }
-    ],
-    "shipping_price" : "number",
-    "total_price" : "number"
+    ]
+}
+
+```
+
+Response :
+
+```json 
+{
+    "code" : "number",
+    "status" : "string",
+    "data" : {
+        "message" : "string"
+    }
 }
 ```
 

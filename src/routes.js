@@ -7,6 +7,7 @@ const {addPhoneNumber, addAddress, addProfilePicture, getProfileInfo, getProfile
 const {addItem, getAllItem, deleteItem, getItemPicture, updateItem} = require('../src/controllers/item');
 const {createCircle, editCircleInfo, updateCircleAvatar, inviteNewMember, getCircleInvitation, approveCircleInvitation, removeMemberAsAdmin, quitRequestFromCircle, getQuitRequestListAsAdmin, getMemberList, postBonusScheme, getBonusScheme, getCircleInfo, getCircleAvatar, getItemOnSale} = require('../src/controllers/circle');
 const {getShippingLocation, shippingFee} = require('../src/controllers/shipping');
+const {orderItem} = require('../src/controllers/order');
 let {upload} = require('./middleware/multer');
 
 module.exports = function (app) {
@@ -48,7 +49,13 @@ module.exports = function (app) {
     app.get('/api/shipping/address', auth, getShippingLocation);
     app.get('/api/shipping/cost', auth, shippingFee);
 
+    app.post('/api/order', auth, orderItem);
+    app.get('/api/order/admin/orders')
+    // app.get('/api/order/seller/orders')
+    // app.put('/api/order/admin/approve?order_id={number}&value={boolean}')
+    // app.put('/api/order/seller/approve?order_id={number}&value={boolean}')
 
 
+    // payment
     
 };

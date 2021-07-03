@@ -29,7 +29,7 @@ exports.getShippingLocation = async function () {
 
 exports.shippingFee = async function(DTO) {
 
-    // available courier : jne, pos, tiki
+    //available courier : jne, pos, tiki
     let cost = await requestInstance.post('/cost', {
         'origin' : DTO.origin.toString(),
         'destination' : DTO.destination.toString(),

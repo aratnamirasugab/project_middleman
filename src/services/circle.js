@@ -1,8 +1,8 @@
 "use strict";
 
 const repository = require('../repositories/circle')
-const baseURL = process.env.URL || 'http://localhost:3000/api/profile/download/avatar';
-const baseURLCircle = process.env.URL || 'http://localhost:3000/api/circle/download/avatar';
+const baseURL = process.env.URL + '/api/profile/download/avatar' || 'http://localhost:3000/api/profile/download/avatar';
+const baseURLCircle = process.env.URL + '/api/circle/download/avatar' || 'http://localhost:3000/api/circle/download/avatar';
 
 exports.createCircle = async function (DTO, userDTO) {
 
