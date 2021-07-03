@@ -141,5 +141,56 @@ exports.getOrdersAsSeller = async function (circle_id) {
             resolve(result)
         })
     })
+}
 
+exports.approveOrderAsSeller = async function (DTO) {
+    
+    let query = `
+        UPDATE middleman.order
+        SET
+            approved_by_seller = ?,
+            updated_at = ?
+        WHERE
+            id = ?
+            AND
+            deleted_at IS NULL
+    `
+
+    let values = [
+        DTO.value, generateCurrentTime(),
+        DTO.order_id
+    ]
+
+    return new Promise(function(resolve, reject) {
+        db.query(query, values, function (error, result, fields) {
+            if (error) reject(error);
+            resolve(result)
+        })
+    })
+}
+
+exports.approveOrderAsAdmin = async function (DTO) {
+    
+    let query = `
+        UPDATE middleman.order
+        SET
+            approved_by_admin = ?,
+            updated_at = ?
+        WHERE
+            id = ?
+            AND
+            deleted_at IS NULL
+    `
+
+    let values = [
+        DTO.value, generateCurrentTime(),
+        DTO.order_id
+    ]
+
+    return new Promise(function(resolve, reject) {
+        db.query(query, values, function (error, result, fields) {
+            if (error) reject(error);
+            resolve(result)
+        })
+    })
 }

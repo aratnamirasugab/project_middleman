@@ -1220,7 +1220,7 @@ Response :
 ## [PUT] Approve Order from list as Admin
 Request :
 - Method : PUT
-- Endpoint : `/api/order/admin/approve?order_id={number}&value={boolean}`
+- Endpoint : `/api/order/admin/approve/:order_id/:value`
 - Header :
     - Authorization : "Bearer " + token
     - Content-Type: application/json
@@ -1241,7 +1241,7 @@ Response :
 ## [PUT] Approve Order from list as Seller
 Request :
 - Method : PUT
-- Endpoint : `/api/order/seller/approve?order_id={number}&value={boolean}`
+- Endpoint : `/api/order/seller/approve/:order_id/:value`
 - Header :
     - Authorization : "Bearer " + token
     - Content-Type: application/json

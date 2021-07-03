@@ -203,3 +203,61 @@ exports.getOrdersAsSeller = async function(userDTO) {
     }
     
 }
+
+exports.approveOrderAsSeller = async function(DTO, userDTO) {
+
+    let hasCircle = await repositoryCircle.findUserHasCircle(userDTO);
+    if (hasCircle.length === 0) {
+        return {
+            code : 400,
+            message : "You're not belong to any group"
+        }
+    }
+
+    let responseFromDB = await repositoryOrder.approveOrderAsSeller(DTO);
+    if (responseFromDB.affectedRows === 0) {
+        return {
+            code : 500,
+            message : "error when executing approve order seller"
+        }
+    }
+    
+    return {
+        code : 200,
+        message : "Successfully changed order data"
+    }
+    
+}
+
+exports.approveOrderAsAdmin = async function(DTO, userDTO) {
+
+    let hasCircle = await repositoryCircle.findUserHasCircle(userDTO);
+    if (hasCircle.length === 0) {
+        return {
+            code : 400,
+            message : "You're not belong to any group"
+        }
+    }
+
+    let userAdmin = await repositoryCircle.userAdmin(userDTO)
+    if (!userAdmin.is_admin) {
+        return {
+            code : 403,
+            message : "You're not admin"
+        }
+    } 
+
+    let responseFromDB = await repositoryOrder.approveOrderAsAdmin(DTO);
+    if (responseFromDB.affectedRows === 0) {
+        return {
+            code : 500,
+            message : "error when executing approve order admin"
+        }
+    }
+    
+    return {
+        code : 200,
+        message : "Successfully changed order data"
+    }
+    
+}

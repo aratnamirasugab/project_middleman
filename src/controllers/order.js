@@ -17,7 +17,6 @@ exports.orderItem = async function(req, res) {
             message : result.message
         }, res);
     } catch (error) {
-        console.log(error)
         return response({
             code : 500,
             message : error
@@ -58,7 +57,48 @@ exports.getOrdersAsSeller = async function(req, res) {
             orders : result.orders
         }, res);
     } catch (error) {
-        console.log(error)
+        return response({
+            code : 500,
+            message : error
+        }, res);
+    }
+}
+
+exports.approveOrderAsSeller = async function(req, res) {
+
+    const userDTO = req.user;
+    const DTO = req.params;
+
+    try {
+        let result = await service.approveOrderAsSeller(DTO, userDTO);
+
+        return response({
+            code : result.code,
+            message : result.message
+        }, res);
+    } catch (error) {
+        console.log(error);
+        return response({
+            code : 500,
+            message : error
+        }, res);
+    }
+}
+
+exports.approveOrderAsAdmin = async function(req, res) {
+
+    const userDTO = req.user;
+    const DTO = req.params;
+
+    try {
+        let result = await service.approveOrderAsAdmin(DTO, userDTO);
+
+        return response({
+            code : result.code,
+            message : result.message
+        }, res);
+    } catch (error) {
+        console.log(error);
         return response({
             code : 500,
             message : error
