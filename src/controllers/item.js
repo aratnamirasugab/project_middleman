@@ -71,7 +71,7 @@ exports.deleteItem = async function (req, res) {
 exports.getItemPicture = async function (req, res) {
 
     const filename = req.params.name;
-    const path = "./uploads/item/";
+    const path = envs.IMAGE_PATH + "/" + "item/";
 
     try {
         res.download(path + filename, (err) => {

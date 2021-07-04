@@ -1,8 +1,7 @@
 "use strict"
 
 const repository = require('../repositories/item');
-const baseURL = process.env.URL + '/api/item/download/picture' || 'http://localhost:3000/api/item/download/picture';
-
+const itemPictureRoute = envs.BASE_URL + '/api/item/download/picture';
 
 exports.addItem = async function (DTO, userDTO) {
 
@@ -38,7 +37,7 @@ exports.getAllItem = async function (userDTO) {
 
     for (let item of list_item) {
         let address = await repository.getItemPictureAddress(item["id"]);
-        item.item_picture = baseURL + "/" + address
+        item.item_picture = itemPictureRoute + "/" + address
     }
 
     return {
