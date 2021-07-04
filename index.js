@@ -1,6 +1,6 @@
-require('dotenv').config()
 const express = require('express');
 const app = express();
+const envs = require('./config');
 app.use(
     express.urlencoded({
         extended : true
@@ -11,5 +11,7 @@ app.use(express.json());
 let routes = require('./src/routes');
 routes(app);
 
-app.listen(process.env.PORT || 3000);
-console.log(`Server is up on whatever port`);
+port = process.env.PORT || envs.PORT;
+
+app.listen(port);
+console.log(`Server is up on port ${port}`);

@@ -1,5 +1,6 @@
 "use strict";
 
+const envs = require('../../config');
 const {response} = require('../context/response');
 const service = require('../services/profile');
 
@@ -64,7 +65,7 @@ exports.addProfilePicture = async function (req, res) {
 exports.getProfileAvatar = async function (req, res) {
 
     const filename = req.params.name;
-    const path = "./uploads/profile/";
+    const path = envs.IMAGE_PATH + "/" + "profile/";
 
     try {
         res.download(path + filename, (err) => {

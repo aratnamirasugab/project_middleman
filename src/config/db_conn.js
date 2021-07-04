@@ -1,20 +1,13 @@
 "use strict";
 
 const mysql = require('mysql');
-
-// const con = mysql.createConnection({
-//     host: "localhost",
-//     user: "root",
-//     password: "",
-//     database: "middleman",
-//     multipleStatements : true
-// });
+const envs = require('../../config');
 
 const con = mysql.createConnection({
-    host : "us-cdbr-east-03.cleardb.com",
-    user: "be9afa0b8c3d9f",
-    password: "74b0db4e",
-    database: "heroku_227f99b4a734a11",
+    host: envs.DB_URI,
+    user: envs.DB_USERNAME,
+    password: envs.DB_PASSWORD,
+    database: envs.DB_DEFAULT,
     multipleStatements : true
 });
 
