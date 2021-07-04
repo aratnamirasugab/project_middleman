@@ -1,6 +1,7 @@
 "use strict"
 
 const repository = require('../repositories/item');
+const envs = require('../../config');
 const itemPictureRoute = envs.BASE_URL + '/api/item/download/picture';
 
 exports.addItem = async function (DTO, userDTO) {
