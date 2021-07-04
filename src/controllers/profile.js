@@ -72,7 +72,7 @@ exports.getProfileAvatar = async function (req, res) {
             if (err) {
                 return response({
                     code : 500,
-                    message : "File cannot be downloaded " + err
+                    message : "File cannot be downloaded " + err + " sini sini " + filename + path
                 }, res);
             }
         })        
