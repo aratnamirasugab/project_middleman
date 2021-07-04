@@ -56,6 +56,7 @@ exports.login = async function (req, res) {
             "token" : dataToResponse.token
         }, res);
     } catch (error) {
+        console.log(error);
         return response({
             "code" : 500,
             "message" : error
